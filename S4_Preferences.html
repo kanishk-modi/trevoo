@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trevoo — Taste Architecture & Constraints (Screen 04)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .card-choice {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-choice.active {
+      border-color: #01265B !important;
+      background-color: #FFFFFF !important;
+      box-shadow: 0 10px 25px -5px rgba(1, 38, 91, 0.08), 0 8px 10px -6px rgba(1, 38, 91, 0.04);
+    }
+    .passion-chip {
+      transition: all 0.15s ease-out;
+    }
+    .passion-chip.active {
+      background-color: #01265B !important;
+      color: #FFFFFF !important;
+      border-color: #01265B !important;
+      box-shadow: 0 4px 12px rgba(1, 38, 91, 0.15);
+    }
+    .passion-chip.active .chip-icon {
+      color: #F59346 !important;
+    }
+  </style>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "deep-navy": "#01265B",
+            "ocean-teal": "#096D85",
+            "sky-blue": "#19879E",
+            "sunset-orange": "#F59346",
+            "slate-gray": "#848485",
+            primary: "#01265B",
+            "primary-container": "#083C6B",
+            "primary-fixed": "#D8E8F8",
+            "primary-fixed-dim": "#84A8CE",
+            "on-primary": "#ffffff",
+            secondary: "#096D85",
+            "secondary-container": "#E1F3F7",
+            "on-secondary-container": "#053E4C",
+            tertiary: "#F59346",
+            "tertiary-container": "#572400",
+            "tertiary-fixed": "#FEF4EB",
+            "on-tertiary-fixed": "#D86E1B",
+            surface: "#F7F9FB",
+            "surface-bright": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#EEF2F6",
+            "surface-container": "#E5EBF0",
+            "surface-container-high": "#DDE4EA",
+            "surface-container-highest": "#D4DCE2",
+            "on-surface": "#0F172A",
+            "on-surface-variant": "#475569",
+            outline: "#848485",
+            "outline-variant": "#CBD5E1",
+            obsidian: "#0A131F"
+          },
+          fontFamily: {
+            "display-hero": ["Epilogue", "sans-serif"],
+            "headline-xl": ["Epilogue", "sans-serif"],
+            "headline-lg": ["Epilogue", "sans-serif"],
+            "headline-md": ["Epilogue", "sans-serif"],
+            "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "body-xl": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-caps": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "tabular-nums": ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-primary selection:text-white">
+
+  <!-- TOP NAVIGATION HEADER -->
+  <header id="main-header" class="fixed top-0 left-0 right-0 w-full z-50 bg-[#101413]/95 backdrop-blur-md border-b border-white/10 text-white shadow-sm transition-all duration-300">
+    <div class="h-20 max-w-[1380px] mx-auto px-6 lg:px-12 flex items-center justify-between gap-6">
+      
+      <!-- Logo Anchor (Singular Monochrome Logo at 2x Relative Area) -->
+      <a href="index.html" class="inline-flex items-center group py-1 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded-lg transition-transform duration-200 hover:scale-[1.03]" aria-label="Trevoo Home">
+        <img alt="Trevoo" class="h-14 md:h-16 w-auto object-contain drop-shadow-[0_2px_10px_rgba(255,255,255,0.4)]" src="assets/trevoo-color-logo.png"/>
+      </a>
+
+      <!-- Primary Nav Menu -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors py-1" data-path="explore" href="S2_Explore.html">Explore</a>
+        <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors py-1" data-path="destinations" href="Destinations.html">Destinations</a>
+        <a aria-current="page" class="transition-colors py-1 text-white font-medium relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[1.5px] after:bg-white" data-path="smart-planner" href="S3_DateSelection.html">Smart Planner</a>
+        <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors py-1" data-path="journal" href="Journal.html">Journal</a>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="flex items-center gap-4">
+        <div class="hidden xl:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-sm">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="font-label-sm text-label-sm tracking-wide text-white/90 uppercase">India • Autumn 2026</span>
+        </div>
+        <a class="inline-flex items-center justify-center px-5 py-2 rounded-full border border-white/30 hover:border-white/70 bg-white/10 hover:bg-white/20 text-white font-label-md text-label-md transition-all backdrop-blur-sm shadow-sm" data-path="sign-in" href="#">
+          Sign In
+        </a>
+        <a class="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors" data-path="profile" href="#">
+          <span class="material-symbols-outlined text-white text-[18px]">person</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN PLANNING WORKSPACE -->
+  <main class="w-full pt-28 pb-36 flex-1">
+    <div class="max-w-[1380px] mx-auto px-6 lg:px-12">
+
+      <!-- STAGE PROGRESSION BREADCRUMB STRIP -->
+      <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-surface-container-high">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-full bg-primary-container text-on-primary font-headline-sm text-sm font-semibold flex items-center justify-center shadow-sm">02</span>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-label-caps text-[11px] uppercase tracking-wider text-secondary font-semibold">Stage 02 of 04</span>
+              <span class="text-on-surface-variant/40">•</span>
+              <span class="font-label-caps text-[11px] uppercase tracking-wider text-on-surface-variant font-medium">Taste Architecture & Constraints</span>
+            </div>
+            <h1 class="font-headline-lg text-2xl md:text-3xl font-bold text-on-surface tracking-tight">Formulate Your Personal Cadence</h1>
+          </div>
+        </div>
+
+        <!-- Corridor & Date Context Banner (Synced from SessionStorage) -->
+        <div class="flex items-center gap-3 bg-surface-container-low px-4 py-2.5 rounded-2xl border border-outline-variant/40 shadow-xs">
+          <div class="w-8 h-8 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[18px]">calendar_month</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2">
+              <span id="active-corridor-badge" class="font-label-caps text-[10px] uppercase font-bold text-secondary tracking-wider">Udaipur Corridor</span>
+              <span class="text-on-surface-variant/40">•</span>
+              <span id="active-duration-badge" class="font-label-sm text-[11px] font-semibold text-on-surface-variant">5 Days</span>
+            </div>
+            <span id="active-dates-text" class="font-headline-sm text-xs font-bold text-on-surface">Oct 08 – Oct 12, 2026</span>
+          </div>
+          <a href="S3_DateSelection.html" class="ml-2 text-xs text-primary hover:text-secondary font-semibold underline underline-offset-2 flex items-center gap-0.5">
+            <span>Edit</span>
+            <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- MAIN 2-COLUMN LAYOUT -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- LEFT 8 COLS: TASTE & CONSTRAINT MODULES -->
+        <div class="lg:col-span-8 flex flex-col gap-10">
+
+          <!-- MODULE 1: PARTY COMPOSITION -->
+          <section class="bg-surface-container-lowest rounded-3xl p-6 md:p-8 border border-surface-container-high shadow-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-surface-container">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-primary/10 text-primary font-bold text-xs flex items-center justify-center">1</span>
+                  <h2 class="font-headline-md text-xl font-bold text-on-surface">Party Composition</h2>
+                </div>
+                <p class="font-body-sm text-xs text-on-surface-variant mt-1">Calibrates room configuration, fleet seating class, and docent ratios.</p>
+              </div>
+
+              <!-- Traveler Counter Stepper -->
+              <div class="flex items-center gap-3 bg-surface-container-low px-3.5 py-1.5 rounded-full border border-outline-variant/40">
+                <span class="text-xs font-semibold text-on-surface-variant">Travelers:</span>
+                <button type="button" id="btn-dec-travelers" class="w-6 h-6 rounded-full bg-white hover:bg-surface-container text-on-surface flex items-center justify-center text-sm font-bold shadow-xs transition-colors" aria-label="Decrease travelers">−</button>
+                <span id="traveler-count-display" class="font-tabular-nums text-sm font-bold text-primary px-1">2</span>
+                <button type="button" id="btn-inc-travelers" class="w-6 h-6 rounded-full bg-white hover:bg-surface-container text-on-surface flex items-center justify-center text-sm font-bold shadow-xs transition-colors" aria-label="Increase travelers">+</button>
+              </div>
+            </div>
+
+            <!-- Party Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="party-options-grid">
+              
+              <!-- Solo -->
+              <button type="button" data-party="SOLO" data-count="1" class="party-card card-choice text-left p-4 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white hover:border-secondary transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="w-10 h-10 rounded-xl bg-primary/10 group-[.active]:bg-primary group-[.active]:text-white text-primary flex items-center justify-center transition-colors">
+                      <span class="material-symbols-outlined text-[20px]">person</span>
+                    </span>
+                    <span class="party-status-indicator w-4 h-4 rounded-full border-2 border-outline-variant group-[.active]:border-primary group-[.active]:bg-primary transition-all"></span>
+                  </div>
+                  <h3 class="font-headline-sm text-base font-bold text-on-surface">Solo Seeker</h3>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1">Independent explorer. 1 King Suite in quiet haveli courtyard.</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant font-medium">
+                  <span>Transit: Chauffeur Sedan</span>
+                  <span class="text-secondary font-semibold">1 Traveler</span>
+                </div>
+              </button>
+
+              <!-- Couple (Default) -->
+              <button type="button" data-party="COUPLE" data-count="2" class="party-card card-choice active text-left p-4 rounded-2xl border-2 border-primary bg-white transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center transition-colors">
+                      <span class="material-symbols-outlined text-[20px]">favorite</span>
+                    </span>
+                    <span class="party-status-indicator w-4 h-4 rounded-full border-2 border-primary bg-primary transition-all"></span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="font-headline-sm text-base font-bold text-on-surface">Couple / Duo</h3>
+                    <span class="px-2 py-0.5 rounded-full bg-secondary-container text-secondary text-[10px] font-bold">Recommended</span>
+                  </div>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1">Romantic & companion cadence. 1 Luxury Heritage Haveli Suite.</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant font-medium">
+                  <span>Transit: Chauffeur Luxury Sedan</span>
+                  <span class="text-secondary font-semibold">2 Travelers</span>
+                </div>
+              </button>
+
+              <!-- Family with kids -->
+              <button type="button" data-party="FAMILY_WITH_KIDS" data-count="4" class="party-card card-choice text-left p-4 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white hover:border-secondary transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="w-10 h-10 rounded-xl bg-primary/10 group-[.active]:bg-primary group-[.active]:text-white text-primary flex items-center justify-center transition-colors">
+                      <span class="material-symbols-outlined text-[20px]">family_restroom</span>
+                    </span>
+                    <span class="party-status-indicator w-4 h-4 rounded-full border-2 border-outline-variant group-[.active]:border-primary group-[.active]:bg-primary transition-all"></span>
+                  </div>
+                  <h3 class="font-headline-sm text-base font-bold text-on-surface">Family with Kids</h3>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1">Multi-gen harmony. 2 Connecting suites with shaded garden access.</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant font-medium">
+                  <span>Transit: Chauffeur Innova Crysta</span>
+                  <span class="text-secondary font-semibold">3–5 Travelers</span>
+                </div>
+              </button>
+
+              <!-- Friends group -->
+              <button type="button" data-party="FRIENDS_GROUP" data-count="4" class="party-card card-choice text-left p-4 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white hover:border-secondary transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="w-10 h-10 rounded-xl bg-primary/10 group-[.active]:bg-primary group-[.active]:text-white text-primary flex items-center justify-center transition-colors">
+                      <span class="material-symbols-outlined text-[20px]">groups</span>
+                    </span>
+                    <span class="party-status-indicator w-4 h-4 rounded-full border-2 border-outline-variant group-[.active]:border-primary group-[.active]:bg-primary transition-all"></span>
+                  </div>
+                  <h3 class="font-headline-sm text-base font-bold text-on-surface">Friends Guild</h3>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1">Shared expedition. Private courtyard wing with communal rooftop.</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant font-medium">
+                  <span>Transit: Chauffeur Luxury SUV / Van</span>
+                  <span class="text-secondary font-semibold">4–8 Travelers</span>
+                </div>
+              </button>
+
+            </div>
+          </section>
+
+          <!-- MODULE 2: TRAVEL PACE & DAILY CHOREOGRAPHY -->
+          <section class="bg-surface-container-lowest rounded-3xl p-6 md:p-8 border border-surface-container-high shadow-xs">
+            <div class="mb-6 pb-4 border-b border-surface-container">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-primary/10 text-primary font-bold text-xs flex items-center justify-center">2</span>
+                <h2 class="font-headline-md text-xl font-bold text-on-surface">Travel Pace & Choreography</h2>
+              </div>
+              <p class="font-body-sm text-xs text-on-surface-variant mt-1">
+                Controls daily waypoint density and guarantees the protected <strong class="text-primary font-semibold">1:00 PM – 3:45 PM</strong> afternoon shaded siesta invariant.
+              </p>
+            </div>
+
+            <!-- Pace Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="pace-options-grid">
+              
+              <!-- Relaxed -->
+              <button type="button" data-pace="RELAXED" data-buffer="65" data-stops="2-3" class="pace-card card-choice text-left p-5 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white hover:border-secondary transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 group-[.active]:bg-emerald-600 group-[.active]:text-white flex items-center justify-center transition-colors">
+                      <span class="material-symbols-outlined text-[20px]">spa</span>
+                    </span>
+                    <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">65% Buffer</span>
+                  </div>
+                  <h3 class="font-headline-sm text-base font-bold text-on-surface">Relaxed Pace</h3>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-2 leading-relaxed">
+                    2–3 sites per day. Extended veranda breakfasts, slow terrace journaling, unhurried sunset rooftop dining.
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant font-medium">
+                  <span>Physical Strain: Very Low</span>
+                  <span class="text-secondary font-semibold">2–3 Stops/Day</span>
+                </div>
+              </button>
+
+              <!-- Balanced (Default) -->
+              <button type="button" data-pace="BALANCED" data-buffer="40" data-stops="4-5" class="pace-card card-choice active text-left p-5 rounded-2xl border-2 border-primary bg-white transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center transition-colors">
+                      <span class="material-symbols-outlined text-[20px]">balance</span>
+                    </span>
+                    <span class="px-2 py-0.5 rounded-full bg-secondary-container text-secondary text-[10px] font-bold">Recommended</span>
+                  </div>
+                  <h3 class="font-headline-sm text-base font-bold text-on-surface">Balanced Cadence</h3>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-2 leading-relaxed">
+                    4–5 sites per day. Protected midday siesta during peak sun, golden-hour docent explorations, and private dining.
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant font-medium">
+                  <span>Rest Buffer: 40% Optimal</span>
+                  <span class="text-secondary font-semibold">4–5 Stops/Day</span>
+                </div>
+              </button>
+
+              <!-- Packed -->
+              <button type="button" data-pace="PACKED" data-buffer="15" data-stops="6+" class="pace-card card-choice text-left p-5 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white hover:border-secondary transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="w-10 h-10 rounded-xl bg-sunset-orange/10 text-tertiary group-[.active]:bg-tertiary group-[.active]:text-white flex items-center justify-center transition-colors">
+                      <span class="material-symbols-outlined text-[20px]">bolt</span>
+                    </span>
+                    <span class="px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 text-[10px] font-bold">15% Buffer</span>
+                  </div>
+                  <h3 class="font-headline-sm text-base font-bold text-on-surface">Packed Immersion</h3>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-2 leading-relaxed">
+                    6+ sites per day. Dawn-to-dusk cultural immersion, maximum architectural coverage, fast-paced private transit.
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant font-medium">
+                  <span>Physical Strain: High</span>
+                  <span class="text-secondary font-semibold">6+ Stops/Day</span>
+                </div>
+              </button>
+
+            </div>
+
+            <!-- Projected Daily Rhythm Visual Ribbon -->
+            <div class="mt-6 p-4 rounded-2xl bg-surface-container-low border border-surface-container-high">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-label-caps text-[11px] uppercase tracking-wider font-bold text-on-surface-variant">Projected Daily Rhythm (24-Hour Cycle)</span>
+                <span id="pace-hours-badge" class="font-label-sm text-xs font-semibold text-primary">6.5h Active • 2.5h Shaded Siesta • 0h Backtracking</span>
+              </div>
+              <div class="w-full h-7 rounded-xl bg-white border border-outline-variant/30 flex overflow-hidden p-0.5 gap-0.5 text-[10px] font-bold select-none">
+                <div class="bg-primary text-white h-full rounded-l-lg flex items-center justify-center px-2" style="width: 32%;">
+                  <span>08:30 – 12:30 (Forts & Stepwells)</span>
+                </div>
+                <div class="bg-amber-100 text-amber-900 border border-amber-200 h-full flex items-center justify-center px-2" style="width: 25%;">
+                  <span>1:00 – 3:45 PM (Shaded Siesta Invariant)</span>
+                </div>
+                <div class="bg-secondary text-white h-full flex items-center justify-center px-2" style="width: 28%;">
+                  <span>4:00 – 7:30 PM (Golden Hour Guilds)</span>
+                </div>
+                <div class="bg-slate-200 text-slate-700 h-full rounded-r-lg flex items-center justify-center px-2" style="width: 15%;">
+                  <span>Dinner</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- MODULE 3: EXPENDITURE APERTURE -->
+          <section class="bg-surface-container-lowest rounded-3xl p-6 md:p-8 border border-surface-container-high shadow-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-surface-container">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-primary/10 text-primary font-bold text-xs flex items-center justify-center">3</span>
+                  <h2 class="font-headline-md text-xl font-bold text-on-surface">Expenditure Aperture (Per Person / Day)</h2>
+                </div>
+                <p class="font-body-sm text-xs text-on-surface-variant mt-1">Includes haveli suite tier, private chauffeur fleet, docent retainers, and dining curations.</p>
+              </div>
+
+              <!-- Total Trip Estimated Calculation -->
+              <div class="bg-primary/5 border border-primary/20 px-3.5 py-1.5 rounded-2xl flex flex-col text-right">
+                <span class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider">Est. Trip Total (5 Days • 2 Pax)</span>
+                <span id="trip-total-estimate" class="font-headline-sm text-sm font-bold text-primary">₹1,50,000 – ₹2,50,000</span>
+              </div>
+            </div>
+
+            <!-- Tier Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="budget-options-grid">
+              
+              <!-- Under 15k -->
+              <button type="button" data-tier="TIER_UNDER_15K" data-rate="12500" class="budget-card card-choice text-left p-5 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white hover:border-secondary transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="font-headline-md text-lg font-bold text-primary">&lt; ₹15,000</span>
+                    <span class="text-[10px] font-bold text-on-surface-variant/70 uppercase">Per Day / Pax</span>
+                  </div>
+                  <h3 class="font-headline-sm text-base font-bold text-on-surface">Mindful Escapes</h3>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Boutique character stays, verified haveli homestays, private sedan transfers, and curated regional walking trails.
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant">
+                  <span>Stay: Boutique Havelis</span>
+                  <span class="text-secondary font-semibold">Verified Safe</span>
+                </div>
+              </button>
+
+              <!-- 15k - 35k (Default) -->
+              <button type="button" data-tier="TIER_15K_TO_35K" data-rate="25000" class="budget-card card-choice active text-left p-5 rounded-2xl border-2 border-primary bg-white transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="font-headline-md text-lg font-bold text-primary">₹15,000 – ₹35,000</span>
+                    <span class="px-2 py-0.5 rounded-full bg-secondary-container text-secondary text-[10px] font-bold">Recommended</span>
+                  </div>
+                  <h3 class="font-headline-sm text-base font-bold text-on-surface">Heritage Havelis</h3>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Dedicated private chauffeur, royal haveli suites with courtyard pools, certified docents, and rooftop lakeside dinners.
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant">
+                  <span>Stay: Heritage Suite</span>
+                  <span class="text-secondary font-semibold">Private Chauffeur</span>
+                </div>
+              </button>
+
+              <!-- 35k - 75k -->
+              <button type="button" data-tier="TIER_35K_TO_75K" data-rate="55000" class="budget-card card-choice text-left p-5 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white hover:border-secondary transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="font-headline-md text-lg font-bold text-primary">₹35,000 – ₹75,000</span>
+                    <span class="text-[10px] font-bold text-on-surface-variant/70 uppercase">Per Day / Pax</span>
+                  </div>
+                  <h3 class="font-headline-sm text-base font-bold text-on-surface">Palace Wings</h3>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Resident master historians, royal palace wing suites, private solar boat charters on Lake Pichola, spa treatments.
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant">
+                  <span>Stay: Royal Palace Wing</span>
+                  <span class="text-secondary font-semibold">Master Historian</span>
+                </div>
+              </button>
+
+              <!-- 75k+ -->
+              <button type="button" data-tier="TIER_OVER_75K" data-rate="95000" class="budget-card card-choice text-left p-5 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white hover:border-secondary transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="font-headline-md text-lg font-bold text-primary">₹75,000+</span>
+                    <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-bold">Ultra Luxury</span>
+                  </div>
+                  <h3 class="font-headline-sm text-base font-bold text-on-surface">Royal Enclaves</h3>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Charter aircraft / helicopter transfers, private palace buyouts, private leopard reserves, bespoke Master Docent retainers.
+                  </p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant">
+                  <span>Stay: Private Palace Buyout</span>
+                  <span class="text-secondary font-semibold">Charter Aviation</span>
+                </div>
+              </button>
+
+            </div>
+          </section>
+
+          <!-- MODULE 4: CULINARY ETHOS -->
+          <section class="bg-surface-container-lowest rounded-3xl p-6 md:p-8 border border-surface-container-high shadow-xs">
+            <div class="mb-6 pb-4 border-b border-surface-container">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-primary/10 text-primary font-bold text-xs flex items-center justify-center">4</span>
+                <h2 class="font-headline-md text-xl font-bold text-on-surface">Culinary Specification & Dietary Ethos</h2>
+              </div>
+              <p class="font-body-sm text-xs text-on-surface-variant mt-1">Guarantees vetted kitchens, dietary integrity, and certified dining protocols.</p>
+            </div>
+
+            <!-- Dietary Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="dietary-options-grid">
+              
+              <!-- Pure Veg (Default) -->
+              <button type="button" data-diet="PURE_VEG" class="dietary-card card-choice active text-left p-4 rounded-2xl border-2 border-primary bg-white transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+                      <span class="material-symbols-outlined text-[18px]">eco</span>
+                    </span>
+                    <span class="diet-status-indicator w-3.5 h-3.5 rounded-full border-2 border-primary bg-primary transition-all"></span>
+                  </div>
+                  <h3 class="font-headline-sm text-sm font-bold text-on-surface">Pure Veg</h3>
+                  <p class="font-body-sm text-[11px] text-on-surface-variant mt-1 leading-relaxed">
+                    Sattvic & dedicated pure veg kitchens. Sacred spice balances, zero meat/egg contamination.
+                  </p>
+                </div>
+                <div class="mt-3 pt-2 border-t border-surface-container text-[10px] text-emerald-700 font-semibold">
+                  100% Pure Vegetarian
+                </div>
+              </button>
+
+              <!-- Veg + Eggs -->
+              <button type="button" data-diet="VEG_AND_EGGS" class="dietary-card card-choice text-left p-4 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white hover:border-secondary transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center">
+                      <span class="material-symbols-outlined text-[18px]">egg</span>
+                    </span>
+                    <span class="diet-status-indicator w-3.5 h-3.5 rounded-full border-2 border-outline-variant transition-all"></span>
+                  </div>
+                  <h3 class="font-headline-sm text-sm font-bold text-on-surface">Veg + Eggs</h3>
+                  <p class="font-body-sm text-[11px] text-on-surface-variant mt-1 leading-relaxed">
+                    Artisan breakfast curations with farm-fresh eggs, pure vegetarian lunch & dinner thalis.
+                  </p>
+                </div>
+                <div class="mt-3 pt-2 border-t border-surface-container text-[10px] text-on-surface-variant font-semibold">
+                  Lacto-Ovo Artisan
+                </div>
+              </button>
+
+              <!-- Non-Veg -->
+              <button type="button" data-diet="NON_VEG" class="dietary-card card-choice text-left p-4 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white hover:border-secondary transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="w-9 h-9 rounded-xl bg-orange-500/10 text-tertiary flex items-center justify-center">
+                      <span class="material-symbols-outlined text-[18px]">restaurant</span>
+                    </span>
+                    <span class="diet-status-indicator w-3.5 h-3.5 rounded-full border-2 border-outline-variant transition-all"></span>
+                  </div>
+                  <h3 class="font-headline-sm text-sm font-bold text-on-surface">Non-Veg</h3>
+                  <p class="font-body-sm text-[11px] text-on-surface-variant mt-1 leading-relaxed">
+                    Heritage royal recipes, Mewari Laal Maas, slow-cooked claypot curations, coastal marinades.
+                  </p>
+                </div>
+                <div class="mt-3 pt-2 border-t border-surface-container text-[10px] text-on-surface-variant font-semibold">
+                  Regional Curations
+                </div>
+              </button>
+
+              <!-- No Preference -->
+              <button type="button" data-diet="NO_PREFERENCE" class="dietary-card card-choice text-left p-4 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white hover:border-secondary transition-all group flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                      <span class="material-symbols-outlined text-[18px]">all_inclusive</span>
+                    </span>
+                    <span class="diet-status-indicator w-3.5 h-3.5 rounded-full border-2 border-outline-variant transition-all"></span>
+                  </div>
+                  <h3 class="font-headline-sm text-sm font-bold text-on-surface">No Preference</h3>
+                  <p class="font-body-sm text-[11px] text-on-surface-variant mt-1 leading-relaxed">
+                    Chef tasting carte blanche and unfiltered culinary discoveries along the royal circuit.
+                  </p>
+                </div>
+                <div class="mt-3 pt-2 border-t border-surface-container text-[10px] text-on-surface-variant font-semibold">
+                  Open Gastronomy
+                </div>
+              </button>
+
+            </div>
+          </section>
+
+          <!-- MODULE 5: ATMOSPHERIC & PASSION CHIPS -->
+          <section class="bg-surface-container-lowest rounded-3xl p-6 md:p-8 border border-surface-container-high shadow-xs">
+            <div class="flex items-center justify-between mb-6 pb-4 border-b border-surface-container">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-primary/10 text-primary font-bold text-xs flex items-center justify-center">5</span>
+                  <h2 class="font-headline-md text-xl font-bold text-on-surface">Atmospheric & Passion Chips</h2>
+                </div>
+                <p class="font-body-sm text-xs text-on-surface-variant mt-1">Multi-select thematic layers that calibrate docent selection and secret stepwell access.</p>
+              </div>
+              <span id="passions-selected-count" class="font-label-sm text-xs font-semibold px-2.5 py-1 rounded-full bg-secondary-container text-secondary">3 Selected</span>
+            </div>
+
+            <!-- Chips Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="passion-chips-grid">
+              
+              <!-- Living Architecture (Active) -->
+              <button type="button" data-tag="LIVING_ARCHITECTURE" class="passion-chip active p-3 rounded-2xl border-2 border-primary bg-primary text-white flex items-center gap-3 text-left">
+                <span class="chip-icon material-symbols-outlined text-tertiary text-[20px]">account_balance</span>
+                <div>
+                  <span class="font-headline-sm text-xs font-bold block leading-tight">Living Architecture</span>
+                  <span class="text-[10px] opacity-80 block">Stepwells & sandstone jharokhas</span>
+                </div>
+              </button>
+
+              <!-- Ancient Astronomy -->
+              <button type="button" data-tag="ANCIENT_ASTRONOMY" class="passion-chip p-3 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white text-on-surface flex items-center gap-3 text-left">
+                <span class="chip-icon material-symbols-outlined text-primary text-[20px]">telescope</span>
+                <div>
+                  <span class="font-headline-sm text-xs font-bold block leading-tight">Ancient Astronomy</span>
+                  <span class="text-[10px] text-on-surface-variant block">Jantar Mantar sightlines</span>
+                </div>
+              </button>
+
+              <!-- Textile & Craft Guilds (Active) -->
+              <button type="button" data-tag="TEXTILE_GUILDS" class="passion-chip active p-3 rounded-2xl border-2 border-primary bg-primary text-white flex items-center gap-3 text-left">
+                <span class="chip-icon material-symbols-outlined text-tertiary text-[20px]">palette</span>
+                <div>
+                  <span class="font-headline-sm text-xs font-bold block leading-tight">Textile Guilds</span>
+                  <span class="text-[10px] opacity-80 block">Block printing & natural indigo</span>
+                </div>
+              </button>
+
+              <!-- High-Altitude Tea Estates -->
+              <button type="button" data-tag="TEA_ESTATES" class="passion-chip p-3 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white text-on-surface flex items-center gap-3 text-left">
+                <span class="chip-icon material-symbols-outlined text-emerald-600 text-[20px]">nature</span>
+                <div>
+                  <span class="font-headline-sm text-xs font-bold block leading-tight">Canopy Retreats</span>
+                  <span class="text-[10px] text-on-surface-variant block">Rainforest mist & flora walks</span>
+                </div>
+              </button>
+
+              <!-- Culinary Heritage -->
+              <button type="button" data-tag="CULINARY_HERITAGE" class="passion-chip p-3 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white text-on-surface flex items-center gap-3 text-left">
+                <span class="chip-icon material-symbols-outlined text-tertiary text-[20px]">soup_kitchen</span>
+                <div>
+                  <span class="font-headline-sm text-xs font-bold block leading-tight">Royal Culinary Guilds</span>
+                  <span class="text-[10px] text-on-surface-variant block">Ancestral palace masterclasses</span>
+                </div>
+              </button>
+
+              <!-- Wildlife & Coracle Safaris -->
+              <button type="button" data-tag="WILDLIFE_SAFARIS" class="passion-chip p-3 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white text-on-surface flex items-center gap-3 text-left">
+                <span class="chip-icon material-symbols-outlined text-amber-700 text-[20px]">pest_control_rodent</span>
+                <div>
+                  <span class="font-headline-sm text-xs font-bold block leading-tight">Wildlife & Coracle</span>
+                  <span class="text-[10px] text-on-surface-variant block">Jawai leopards & river coracles</span>
+                </div>
+              </button>
+
+              <!-- Slow Photography (Active) -->
+              <button type="button" data-tag="SLOW_PHOTOGRAPHY" class="passion-chip active p-3 rounded-2xl border-2 border-primary bg-primary text-white flex items-center gap-3 text-left">
+                <span class="chip-icon material-symbols-outlined text-tertiary text-[20px]">photo_camera</span>
+                <div>
+                  <span class="font-headline-sm text-xs font-bold block leading-tight">Slow Photography</span>
+                  <span class="text-[10px] opacity-80 block">Golden-hour silent courtyards</span>
+                </div>
+              </button>
+
+              <!-- Stepwell Geometries -->
+              <button type="button" data-tag="STEPWELL_GEOMETRIES" class="passion-chip p-3 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white text-on-surface flex items-center gap-3 text-left">
+                <span class="chip-icon material-symbols-outlined text-sky-blue text-[20px]">stairs</span>
+                <div>
+                  <span class="font-headline-sm text-xs font-bold block leading-tight">Stepwell Geometries</span>
+                  <span class="text-[10px] text-on-surface-variant block">Subterranean cool acoustics</span>
+                </div>
+              </button>
+
+              <!-- Desert Stargazing -->
+              <button type="button" data-tag="DESERT_STARGAZING" class="passion-chip p-3 rounded-2xl border border-surface-container-high bg-surface-container-low/50 hover:bg-white text-on-surface flex items-center gap-3 text-left">
+                <span class="chip-icon material-symbols-outlined text-primary text-[20px]">nights_stay</span>
+                <div>
+                  <span class="font-headline-sm text-xs font-bold block leading-tight">Desert Astronomy</span>
+                  <span class="text-[10px] text-on-surface-variant block">Private dunes & folk serenades</span>
+                </div>
+              </button>
+
+            </div>
+          </section>
+
+        </div>
+
+        <!-- RIGHT 4 COLS: STICKY TELEMETRY CALIBRATION MATRIX & PREVIEW -->
+        <div class="lg:col-span-4 sticky top-28 flex flex-col gap-6">
+
+          <!-- CARD 1: LIVE CALIBRATION MATRIX -->
+          <div class="bg-surface-container-lowest rounded-3xl p-6 border border-surface-container-high shadow-sm">
+            <div class="flex items-center justify-between pb-4 border-b border-surface-container">
+              <div>
+                <span class="font-label-caps text-[10px] uppercase tracking-wider text-secondary font-bold">Algorithmic Synthesis Engine</span>
+                <h3 class="font-headline-sm text-lg font-bold text-on-surface">Calibration Matrix</h3>
+              </div>
+              <span id="constraints-lock-badge" class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span id="constraints-lock-text">4/4 Locked</span>
+              </span>
+            </div>
+
+            <!-- Telemetry Gauges -->
+            <div class="py-4 space-y-3.5">
+              
+              <!-- Cadence Match Score -->
+              <div>
+                <div class="flex items-center justify-between text-xs mb-1">
+                  <span class="font-medium text-on-surface-variant">Predicted Cadence Match</span>
+                  <span id="telemetry-match-score" class="font-bold text-primary font-tabular-nums">98.4%</span>
+                </div>
+                <div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+                  <div id="telemetry-match-bar" class="bg-primary h-full rounded-full transition-all duration-300" style="width: 98.4%;"></div>
+                </div>
+              </div>
+
+              <!-- Rest Buffer Allocation -->
+              <div>
+                <div class="flex items-center justify-between text-xs mb-1">
+                  <span class="font-medium text-on-surface-variant">Protected Rest Buffer</span>
+                  <span id="telemetry-buffer-score" class="font-bold text-secondary font-tabular-nums">40% (Optimal)</span>
+                </div>
+                <div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+                  <div id="telemetry-buffer-bar" class="bg-secondary h-full rounded-full transition-all duration-300" style="width: 40%;"></div>
+                </div>
+              </div>
+
+              <!-- Backtracking Vector Guarantee -->
+              <div class="flex items-center justify-between pt-2 border-t border-surface-container text-xs">
+                <span class="text-on-surface-variant flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px] text-emerald-600">navigation</span>
+                  Backtrack Ratio
+                </span>
+                <span class="font-bold text-emerald-700">0.00% (Linear Vector)</span>
+              </div>
+
+              <!-- Thermal Reprieve Guarantee -->
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-on-surface-variant flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px] text-tertiary">wb_sunny</span>
+                  Midday Thermal Reprieve
+                </span>
+                <span class="font-bold text-primary">1:00 PM – 3:45 PM Locked</span>
+              </div>
+            </div>
+
+            <!-- Invariant Guardrail Banner (Dynamic) -->
+            <div id="guardrail-alert" class="mt-2 p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs hidden">
+              <div class="flex items-start gap-2.5">
+                <span class="material-symbols-outlined text-tertiary text-[18px] shrink-0 mt-0.5">warning</span>
+                <div>
+                  <strong class="font-bold block">Pacing Strain Advisory</strong>
+                  <span class="text-[11px] leading-relaxed block mt-0.5" id="guardrail-text">
+                    Packed pace with younger children exceeds recommended daily energy budget. Consider switching to Balanced pace.
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Positive Reassurance Banner -->
+            <div id="reassurance-alert" class="mt-2 p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs flex items-center gap-2">
+              <span class="material-symbols-outlined text-emerald-600 text-[18px] shrink-0">verified</span>
+              <span class="text-[11px]">Coupled pace with shaded siesta matches optimal Rajasthan autumn weather.</span>
+            </div>
+          </div>
+
+          <!-- CARD 2: MATCHED SANCTUARY PREVIEW -->
+          <div class="bg-surface-container-lowest rounded-3xl p-6 border border-surface-container-high shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <span class="font-label-caps text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Curated Haven Match</span>
+              <span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold">Tier-1 Authentic</span>
+            </div>
+
+            <!-- Sanctuary Card -->
+            <div class="rounded-2xl overflow-hidden border border-surface-container bg-surface-container-low/40">
+              <div class="h-32 bg-slate-800 relative overflow-hidden flex items-end p-3 text-white">
+                <div class="absolute inset-0 bg-cover bg-center opacity-80" id="sanctuary-img" style="background-image: url('https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                <div class="relative z-10">
+                  <span id="sanctuary-archetype" class="text-[10px] uppercase font-bold tracking-wider text-amber-300">Heritage Haveli Suite</span>
+                  <h4 id="sanctuary-name" class="font-headline-sm text-base font-bold leading-tight">Ambrai Haveli, Lake Pichola</h4>
+                </div>
+              </div>
+
+              <div class="p-3.5 space-y-2 text-xs">
+                <div class="flex items-center justify-between text-on-surface-variant">
+                  <span>Architecture Authenticity:</span>
+                  <span id="sanctuary-score" class="font-bold text-primary">98.8% Verified</span>
+                </div>
+                <div class="flex items-center justify-between text-on-surface-variant">
+                  <span>Nightly Allocation:</span>
+                  <span id="sanctuary-rate" class="font-bold text-on-surface">₹24,500 / night</span>
+                </div>
+                <div class="pt-2 border-t border-surface-container flex flex-wrap gap-1 text-[10px]">
+                  <span class="px-2 py-0.5 rounded-md bg-white border border-outline-variant/40 text-on-surface-variant font-medium">Courtyard Plunge Pool</span>
+                  <span class="px-2 py-0.5 rounded-md bg-white border border-outline-variant/40 text-on-surface-variant font-medium">Chauffeur Transfer</span>
+                  <span class="px-2 py-0.5 rounded-md bg-white border border-outline-variant/40 text-on-surface-variant font-medium">Mewari Docent</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FLOATING PERSISTENT FOOTER / SUMMARY BAR -->
+  <div class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-t border-surface-container-high py-4 px-6 lg:px-12 shadow-[0_-4px_24px_rgba(0,0,0,0.06)]">
+    <div class="max-w-[1380px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      
+      <!-- Selection Summary Readout -->
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <div class="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center shrink-0 shadow-sm">
+          <span class="material-symbols-outlined text-[24px]">tune</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="summary-party-badge" class="font-label-caps text-xs uppercase font-bold text-secondary">Couple (2 Pax)</span>
+            <span class="text-on-surface-variant/40">•</span>
+            <span id="summary-pace-badge" class="px-2 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Balanced Cadence</span>
+            <span class="text-on-surface-variant/40">•</span>
+            <span id="summary-tier-badge" class="font-label-sm text-xs font-semibold text-primary">Heritage Havelis</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <h4 id="summary-title" class="font-headline-sm text-base sm:text-lg font-bold text-on-surface">
+              Udaipur Corridor • 5 Days / 4 Nights
+            </h4>
+            <span id="summary-dietary-badge" class="font-body-sm text-xs font-semibold text-on-surface-variant">
+              (Pure Veg • 3 Passions)
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+        <a href="S3_DateSelection.html" class="px-5 py-3.5 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-sm font-semibold transition-colors">
+          Back to Calendar
+        </a>
+        <button id="btn-synthesize-step5" type="button" class="group inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-full bg-primary hover:bg-primary-container text-white font-headline-sm text-sm font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5 cursor-pointer">
+          <span>Synthesize My Itinerary (Screen 05)</span>
+          <span class="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:translate-x-1">auto_awesome</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: TASTE ARCHITECTURE ENGINE & STATE MANAGEMENT -->
+  <script>
+    // State Store for Screen 04
+    const state = {
+      // Inherited from Screen 03 (SessionStorage)
+      corridor: "Udaipur & The Aravalli Escarpment",
+      startDate: "2026-10-08",
+      endDate: "2026-10-12",
+      durationDays: 5,
+      // Preferences Model
+      party: {
+        type: "COUPLE",
+        travelerCount: 2
+      },
+      pacing: "BALANCED", // RELAXED | BALANCED | PACKED
+      budgetTier: "TIER_15K_TO_35K", // TIER_UNDER_15K | TIER_15K_TO_35K | TIER_35K_TO_75K | TIER_OVER_75K
+      dietaryEthos: "PURE_VEG", // PURE_VEG | VEG_AND_EGGS | NON_VEG | NO_PREFERENCE
+      passionTags: [
+        "LIVING_ARCHITECTURE",
+        "TEXTILE_GUILDS",
+        "SLOW_PHOTOGRAPHY"
+      ]
+    };
+
+    // Sanctuary Matrix by Budget Tier
+    const sanctuaryDirectory = {
+      "TIER_UNDER_15K": {
+        name: "Rawla Narlai Heritage Retreat",
+        archetype: "Boutique Heritage Haven",
+        rate: "₹12,500 / night",
+        score: "96.4% Verified",
+        img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80"
+      },
+      "TIER_15K_TO_35K": {
+        name: "Ambrai Haveli, Lake Pichola",
+        archetype: "Heritage Haveli Suite",
+        rate: "₹24,500 / night",
+        score: "98.8% Verified",
+        img: "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=800&q=80"
+      },
+      "TIER_35K_TO_75K": {
+        name: "Fateh Garh Heritage Palace Wing",
+        archetype: "Royal Palace Wing",
+        rate: "₹48,000 / night",
+        score: "99.4% Verified",
+        img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80"
+      },
+      "TIER_OVER_75K": {
+        name: "Taj Lake Palace Grand Presidential Wing",
+        archetype: "Royal Enclave Buyout",
+        rate: "₹92,000 / night",
+        score: "99.9% Verified",
+        img: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80"
+      }
+    };
+
+    // DOM Elements
+    const travelerCountDisplay = document.getElementById('traveler-count-display');
+    const corridorBadgeEl = document.getElementById('active-corridor-badge');
+    const durationBadgeEl = document.getElementById('active-duration-badge');
+    const datesTextEl = document.getElementById('active-dates-text');
+    const summaryTitleEl = document.getElementById('summary-title');
+    const summaryPartyBadgeEl = document.getElementById('summary-party-badge');
+    const summaryPaceBadgeEl = document.getElementById('summary-pace-badge');
+    const summaryTierBadgeEl = document.getElementById('summary-tier-badge');
+    const summaryDietaryBadgeEl = document.getElementById('summary-dietary-badge');
+    const passionsCountEl = document.getElementById('passions-selected-count');
+    const tripTotalEstimateEl = document.getElementById('trip-total-estimate');
+
+    // Telemetry Elements
+    const telemetryMatchScoreEl = document.getElementById('telemetry-match-score');
+    const telemetryMatchBarEl = document.getElementById('telemetry-match-bar');
+    const telemetryBufferScoreEl = document.getElementById('telemetry-buffer-score');
+    const telemetryBufferBarEl = document.getElementById('telemetry-buffer-bar');
+    const guardrailAlertEl = document.getElementById('guardrail-alert');
+    const reassuranceAlertEl = document.getElementById('reassurance-alert');
+
+    // Sanctuary Preview Elements
+    const sanctuaryNameEl = document.getElementById('sanctuary-name');
+    const sanctuaryArchetypeEl = document.getElementById('sanctuary-archetype');
+    const sanctuaryRateEl = document.getElementById('sanctuary-rate');
+    const sanctuaryScoreEl = document.getElementById('sanctuary-score');
+    const sanctuaryImgEl = document.getElementById('sanctuary-img');
+
+    // 1. Load Session Data from Screen 03 (if available)
+    function loadSessionData() {
+      try {
+        const stored = sessionStorage.getItem('trevoo_calendar_selection');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed.corridor) state.corridor = parsed.corridor;
+          if (parsed.startDate) state.startDate = parsed.startDate;
+          if (parsed.endDate) state.endDate = parsed.endDate;
+          if (parsed.durationDays) state.durationDays = parsed.durationDays;
+        }
+      } catch (e) {
+        console.warn("Could not read calendar selection from sessionStorage, using defaults.", e);
+      }
+
+      // Format for display
+      const shortCorridor = state.corridor.split('&')[0].trim();
+      corridorBadgeEl.textContent = `${shortCorridor} Corridor`;
+      durationBadgeEl.textContent = `${state.durationDays} Days`;
+      
+      const startParts = state.startDate.split('-');
+      const endParts = state.endDate.split('-');
+      const monthNames = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const startMonth = monthNames[parseInt(startParts[1])] || "Oct";
+      const endMonth = monthNames[parseInt(endParts[1])] || "Oct";
+      const formattedDate = `${startMonth} ${startParts[2]} – ${endMonth} ${endParts[2]}, ${startParts[0]}`;
+      
+      datesTextEl.textContent = formattedDate;
+      summaryTitleEl.textContent = `${shortCorridor} Corridor • ${state.durationDays} Days / ${Math.max(1, state.durationDays - 1)} Nights`;
+    }
+
+    // 2. Party Selection Handlers
+    document.querySelectorAll('.party-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.party-card').forEach(c => {
+          c.classList.remove('active', 'border-2', 'border-primary', 'bg-white');
+          c.classList.add('border', 'border-surface-container-high', 'bg-surface-container-low/50');
+          c.querySelector('.party-status-indicator').classList.remove('border-primary', 'bg-primary');
+          c.querySelector('.party-status-indicator').classList.add('border-outline-variant');
+        });
+
+        card.classList.add('active', 'border-2', 'border-primary', 'bg-white');
+        card.classList.remove('border-surface-container-high', 'bg-surface-container-low/50');
+        card.querySelector('.party-status-indicator').classList.add('border-primary', 'bg-primary');
+        card.querySelector('.party-status-indicator').classList.remove('border-outline-variant');
+
+        state.party.type = card.dataset.party;
+        state.party.travelerCount = parseInt(card.dataset.count);
+        travelerCountDisplay.textContent = state.party.travelerCount;
+
+        updateCalibration();
+      });
+    });
+
+    // Traveler Stepper
+    document.getElementById('btn-dec-travelers').addEventListener('click', () => {
+      if (state.party.travelerCount > 1) {
+        state.party.travelerCount--;
+        travelerCountDisplay.textContent = state.party.travelerCount;
+        updateCalibration();
+      }
+    });
+
+    document.getElementById('btn-inc-travelers').addEventListener('click', () => {
+      if (state.party.travelerCount < 12) {
+        state.party.travelerCount++;
+        travelerCountDisplay.textContent = state.party.travelerCount;
+        updateCalibration();
+      }
+    });
+
+    // 3. Pacing Handlers
+    document.querySelectorAll('.pace-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.pace-card').forEach(c => {
+          c.classList.remove('active', 'border-2', 'border-primary', 'bg-white');
+          c.classList.add('border', 'border-surface-container-high', 'bg-surface-container-low/50');
+        });
+
+        card.classList.add('active', 'border-2', 'border-primary', 'bg-white');
+        card.classList.remove('border-surface-container-high', 'bg-surface-container-low/50');
+
+        state.pacing = card.dataset.pace;
+        updateCalibration();
+      });
+    });
+
+    // 4. Budget Aperture Handlers
+    document.querySelectorAll('.budget-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.budget-card').forEach(c => {
+          c.classList.remove('active', 'border-2', 'border-primary', 'bg-white');
+          c.classList.add('border', 'border-surface-container-high', 'bg-surface-container-low/50');
+        });
+
+        card.classList.add('active', 'border-2', 'border-primary', 'bg-white');
+        card.classList.remove('border-surface-container-high', 'bg-surface-container-low/50');
+
+        state.budgetTier = card.dataset.tier;
+        updateSanctuaryPreview();
+        updateCalibration();
+      });
+    });
+
+    // 5. Dietary Handlers
+    document.querySelectorAll('.dietary-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.dietary-card').forEach(c => {
+          c.classList.remove('active', 'border-2', 'border-primary', 'bg-white');
+          c.classList.add('border', 'border-surface-container-high', 'bg-surface-container-low/50');
+          c.querySelector('.diet-status-indicator').classList.remove('border-primary', 'bg-primary');
+          c.querySelector('.diet-status-indicator').classList.add('border-outline-variant');
+        });
+
+        card.classList.add('active', 'border-2', 'border-primary', 'bg-white');
+        card.classList.remove('border-surface-container-high', 'bg-surface-container-low/50');
+        card.querySelector('.diet-status-indicator').classList.add('border-primary', 'bg-primary');
+        card.querySelector('.diet-status-indicator').classList.remove('border-outline-variant');
+
+        state.dietaryEthos = card.dataset.diet;
+        updateCalibration();
+      });
+    });
+
+    // 6. Passion Multi-Select Handlers
+    document.querySelectorAll('.passion-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const tag = chip.dataset.tag;
+        const index = state.passionTags.indexOf(tag);
+
+        if (index > -1) {
+          // Deselect
+          state.passionTags.splice(index, 1);
+          chip.classList.remove('active', 'border-2', 'border-primary', 'bg-primary', 'text-white');
+          chip.classList.add('border', 'border-surface-container-high', 'bg-surface-container-low/50', 'text-on-surface');
+          chip.querySelector('.chip-icon').classList.remove('text-tertiary');
+        } else {
+          // Select
+          state.passionTags.push(tag);
+          chip.classList.add('active', 'border-2', 'border-primary', 'bg-primary', 'text-white');
+          chip.classList.remove('border-surface-container-high', 'bg-surface-container-low/50', 'text-on-surface');
+          chip.querySelector('.chip-icon').classList.add('text-tertiary');
+        }
+
+        passionsCountEl.textContent = `${state.passionTags.length} Selected`;
+        updateCalibration();
+      });
+    });
+
+    // 7. Update Sanctuary Preview Card
+    function updateSanctuaryPreview() {
+      const haven = sanctuaryDirectory[state.budgetTier] || sanctuaryDirectory["TIER_15K_TO_35K"];
+      sanctuaryNameEl.textContent = haven.name;
+      sanctuaryArchetypeEl.textContent = haven.archetype;
+      sanctuaryRateEl.textContent = haven.rate;
+      sanctuaryScoreEl.textContent = haven.score;
+      sanctuaryImgEl.style.backgroundImage = `url('${haven.img}')`;
+    }
+
+    // 8. Update Calibration Matrix & Bottom Readout
+    function updateCalibration() {
+      // Party Readout
+      let partyLabel = "Couple";
+      if (state.party.type === 'SOLO') partyLabel = "Solo";
+      else if (state.party.type === 'FAMILY_WITH_KIDS') partyLabel = "Family";
+      else if (state.party.type === 'FRIENDS_GROUP') partyLabel = "Friends";
+      summaryPartyBadgeEl.textContent = `${partyLabel} (${state.party.travelerCount} Pax)`;
+
+      // Pacing Readout & Telemetry
+      if (state.pacing === 'RELAXED') {
+        summaryPaceBadgeEl.textContent = "Relaxed Pace";
+        summaryPaceBadgeEl.className = "px-2 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold";
+        telemetryBufferScoreEl.textContent = "65% (Generous)";
+        telemetryBufferBarEl.style.width = "65%";
+        telemetryMatchScoreEl.textContent = "96.5%";
+        telemetryMatchBarEl.style.width = "96.5%";
+      } else if (state.pacing === 'PACKED') {
+        summaryPaceBadgeEl.textContent = "Packed Immersion";
+        summaryPaceBadgeEl.className = "px-2 py-0.2 rounded-full bg-orange-100 text-orange-800 text-[10px] font-bold";
+        telemetryBufferScoreEl.textContent = "15% (Tight)";
+        telemetryBufferBarEl.style.width = "15%";
+        telemetryMatchScoreEl.textContent = "93.0%";
+        telemetryMatchBarEl.style.width = "93.0%";
+      } else {
+        summaryPaceBadgeEl.textContent = "Balanced Cadence";
+        summaryPaceBadgeEl.className = "px-2 py-0.2 rounded-full bg-secondary-container text-secondary text-[10px] font-bold";
+        telemetryBufferScoreEl.textContent = "40% (Optimal)";
+        telemetryBufferBarEl.style.width = "40%";
+        telemetryMatchScoreEl.textContent = "98.4%";
+        telemetryMatchBarEl.style.width = "98.4%";
+      }
+
+      // Budget Tier Readout
+      const tierMap = {
+        "TIER_UNDER_15K": "Mindful (< ₹15k)",
+        "TIER_15K_TO_35K": "Heritage Havelis",
+        "TIER_35K_TO_75K": "Palace Wings",
+        "TIER_OVER_75K": "Royal Enclaves"
+      };
+      summaryTierBadgeEl.textContent = tierMap[state.budgetTier] || "Heritage Havelis";
+
+      // Dietary Readout
+      const dietMap = {
+        "PURE_VEG": "Pure Veg",
+        "VEG_AND_EGGS": "Veg + Eggs",
+        "NON_VEG": "Non-Veg",
+        "NO_PREFERENCE": "Open Dining"
+      };
+      summaryDietaryBadgeEl.textContent = `(${dietMap[state.dietaryEthos]} • ${state.passionTags.length} Passions)`;
+
+      // Invariant Guardrail Verification (PRD Invariant 3.4)
+      // If party is Family with kids and pace is Packed, trigger gentle advisory
+      if (state.party.type === 'FAMILY_WITH_KIDS' && state.pacing === 'PACKED') {
+        guardrailAlertEl.classList.remove('hidden');
+        reassuranceAlertEl.classList.add('hidden');
+      } else {
+        guardrailAlertEl.classList.add('hidden');
+        reassuranceAlertEl.classList.remove('hidden');
+      }
+
+      // Estimated Trip Budget Calculation
+      const rateMultiplierMap = {
+        "TIER_UNDER_15K": [10000, 15000],
+        "TIER_15K_TO_35K": [15000, 35000],
+        "TIER_35K_TO_75K": [35000, 75000],
+        "TIER_OVER_75K": [75000, 120000]
+      };
+      const [minRate, maxRate] = rateMultiplierMap[state.budgetTier];
+      const pax = state.party.travelerCount;
+      const days = state.durationDays;
+      const totalMin = (minRate * pax * days).toLocaleString('en-IN');
+      const totalMax = (maxRate * pax * days).toLocaleString('en-IN');
+      tripTotalEstimateEl.textContent = `₹${totalMin} – ₹${totalMax}`;
+
+      // Save state to SessionStorage
+      savePreferencesToSession();
+    }
+
+    // 9. Save Preferences & Synthesis Request
+    function savePreferencesToSession() {
+      const payload = {
+        destination: state.corridor,
+        dates: {
+          startDate: state.startDate,
+          endDate: state.endDate
+        },
+        party: {
+          type: state.party.type,
+          travelerCount: state.party.travelerCount
+        },
+        pacing: state.pacing,
+        budgetTier: state.budgetTier,
+        dietaryEthos: state.dietaryEthos,
+        passionTags: state.passionTags
+      };
+      sessionStorage.setItem('trevoo_preferences', JSON.stringify(payload));
+    }
+
+    // 10. Continue to Screen 05 (Active Waiting)
+    document.getElementById('btn-synthesize-step5').addEventListener('click', () => {
+      savePreferencesToSession();
+      // Navigate to Screen 05
+      window.location.href = 'S5_ActiveWaiting.html';
+    });
+
+    // Initialize
+    loadSessionData();
+    updateSanctuaryPreview();
+    updateCalibration();
+  </script>
+</body>
+</html>
+

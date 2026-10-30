@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trevoo — Confirmed Master Travel Dossier (Screen 08)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    
+    .monograph-paper {
+      background: #FFFFFF;
+      box-shadow: 0 20px 40px -15px rgba(1, 38, 91, 0.08), 0 0 0 1px rgba(1, 38, 91, 0.05);
+    }
+    
+    .watermark-seal {
+      background-image: radial-gradient(#096D85 0.75px, transparent 0.75px);
+      background-size: 16px 16px;
+      opacity: 0.06;
+    }
+
+    @media print {
+      body { background: #FFFFFF !important; color: #000000 !important; }
+      header, footer, .no-print { display: none !important; }
+      main { padding-top: 0 !important; padding-bottom: 0 !important; }
+      .monograph-paper { box-shadow: none !important; border: none !important; }
+      .day-block { page-break-inside: avoid; break-inside: avoid; }
+      a { text-decoration: none !important; color: inherit !important; }
+    }
+  </style>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "deep-navy": "#01265B",
+            "ocean-teal": "#096D85",
+            "sky-blue": "#19879E",
+            "sunset-orange": "#F59346",
+            "slate-gray": "#848485",
+            primary: "#01265B",
+            "primary-container": "#083C6B",
+            "primary-fixed": "#D8E8F8",
+            "primary-fixed-dim": "#84A8CE",
+            "on-primary": "#ffffff",
+            secondary: "#096D85",
+            "secondary-container": "#E1F3F7",
+            "on-secondary-container": "#053E4C",
+            tertiary: "#F59346",
+            "tertiary-container": "#572400",
+            "tertiary-fixed": "#FEF4EB",
+            "on-tertiary-fixed": "#D86E1B",
+            surface: "#F7F9FB",
+            "surface-bright": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#EEF2F6",
+            "surface-container": "#E5EBF0",
+            "surface-container-high": "#DDE4EA",
+            "surface-container-highest": "#D4DCE2",
+            "on-surface": "#0F172A",
+            "on-surface-variant": "#475569",
+            outline: "#848485",
+            "outline-variant": "#CBD5E1",
+            obsidian: "#0A131F"
+          },
+          fontFamily: {
+            "display-hero": ["Epilogue", "sans-serif"],
+            "headline-xl": ["Epilogue", "sans-serif"],
+            "headline-lg": ["Epilogue", "sans-serif"],
+            "headline-md": ["Epilogue", "sans-serif"],
+            "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "body-xl": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-caps": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "tabular-nums": ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-primary selection:text-white">
+
+  <!-- TOP NAVIGATION HEADER (NO-PRINT) -->
+  <header id="main-header" class="no-print fixed top-0 left-0 right-0 w-full z-50 bg-[#101413]/95 backdrop-blur-md border-b border-white/10 text-white shadow-sm transition-all duration-300">
+    <div class="h-20 max-w-[1380px] mx-auto px-6 lg:px-12 flex items-center justify-between gap-6">
+      
+      <!-- Logo Anchor (Singular Monochrome Logo at 2x Relative Area) -->
+      <a href="index.html" class="inline-flex items-center group py-1 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded-lg transition-transform duration-200 hover:scale-[1.03]" aria-label="Trevoo Home">
+        <img alt="Trevoo" class="h-14 md:h-16 w-auto object-contain drop-shadow-[0_2px_10px_rgba(255,255,255,0.4)]" src="assets/trevoo-color-logo.png"/>
+      </a>
+
+      <!-- Primary Nav Menu -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors py-1" data-path="explore" href="S2_Explore.html">Explore</a>
+        <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors py-1" data-path="destinations" href="Destinations.html">Destinations</a>
+        <a aria-current="page" class="transition-colors py-1 text-white font-medium relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[1.5px] after:bg-white" data-path="smart-planner" href="S3_DateSelection.html">Smart Planner</a>
+        <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors py-1" data-path="journal" href="Journal.html">Journal</a>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="flex items-center gap-4">
+        <div class="hidden xl:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-sm">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="font-label-sm text-label-sm tracking-wide text-white/90 uppercase">India • Autumn 2026</span>
+        </div>
+        <a class="inline-flex items-center justify-center px-5 py-2 rounded-full border border-white/30 hover:border-white/70 bg-white/10 hover:bg-white/20 text-white font-label-md text-label-md transition-all backdrop-blur-sm shadow-sm" data-path="sign-in" href="#">
+          Sign In
+        </a>
+        <a class="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors" data-path="profile" href="#">
+          <span class="material-symbols-outlined text-white text-[18px]">person</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN MASTER DOSSIER CONTAINER -->
+  <main class="w-full pt-28 pb-32 flex-1">
+    <div class="max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- CONFIRMATION STATUS TOAST RIBBON (NO-PRINT) -->
+      <div class="no-print mb-8 p-4 rounded-3xl bg-emerald-950 text-white border border-emerald-800/60 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <span class="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[22px]">verified</span>
+          </span>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-label-caps text-[11px] uppercase font-bold text-emerald-300 tracking-wider">Itinerary Reality-Locked</span>
+              <span class="text-emerald-500">•</span>
+              <span class="text-xs text-emerald-200/80">Reference Code: <strong class="text-white font-mono">TRV-2026-8842</strong></span>
+            </div>
+            <p class="font-body-sm text-xs text-slate-300 mt-0.5">
+              Haveli suites held, chauffeur allocated, and docent private keys confirmed. Ready for execution.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" id="btn-copy-link-toast" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/15 transition-colors flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[15px]">link</span>
+            <span>Copy Companion Link</span>
+          </button>
+          <a href="S7_Builder.html" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/15 transition-colors">
+            Edit Builder
+          </a>
+        </div>
+      </div>
+
+      <!-- EDITORIAL MONOGRAPH DOCUMENT PAPER -->
+      <article class="monograph-paper rounded-3xl border border-surface-container-high overflow-hidden relative p-8 sm:p-12 lg:p-16">
+        <div class="watermark-seal absolute inset-0 pointer-events-none"></div>
+
+        <!-- MONOGRAPH HEADER: THE ROYAL PASSPORT -->
+        <header class="relative z-10 border-b-2 border-primary/20 pb-8 mb-10">
+          
+          <!-- Top Classification Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div class="flex items-center gap-3">
+              <span class="px-3 py-1 rounded-md bg-primary text-white font-label-caps text-xs font-bold tracking-wider uppercase">
+                Master Monograph
+              </span>
+              <span class="text-xs font-mono font-bold text-secondary">
+                DOSSIER • TRV-2026-8842
+              </span>
+              <span class="hidden sm:inline-block text-on-surface-variant/40">•</span>
+              <span class="hidden sm:inline-flex items-center gap-1 text-xs text-emerald-700 font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                0.00% Backtrack Verified
+              </span>
+            </div>
+
+            <!-- Authentic Seal Badge -->
+            <div class="flex items-center gap-2 text-xs text-on-surface-variant font-medium">
+              <span class="material-symbols-outlined text-secondary text-[18px]">verified_user</span>
+              <span>Heritage Conservation Charter Certified</span>
+            </div>
+          </div>
+
+          <!-- Title & Subtitle -->
+          <h1 id="monograph-title" class="font-display-hero text-3xl sm:text-4xl lg:text-5xl font-bold text-primary tracking-tight leading-tight">
+            Udaipur &amp; The Aravalli Escarpment
+          </h1>
+          <p id="monograph-subtitle" class="font-body-xl text-base sm:text-lg text-on-surface-variant mt-3 max-w-3xl leading-relaxed">
+            A Five-Day Curated Monograph of Mewari Lake Havelis, Subterranean Stepwells, and Royal Living Craft Guilds. Formulated for unhurried contemplative exploration.
+          </p>
+
+          <!-- Itinerary Parameters Grid -->
+          <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 rounded-2xl bg-surface-container-low/70 border border-surface-container">
+            <div>
+              <span class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider block">Duration &amp; Dates</span>
+              <span id="meta-dates" class="font-headline-sm text-sm font-bold text-on-surface block mt-1">Oct 08 – Oct 12, 2026</span>
+              <span class="text-[11px] text-secondary font-medium">5 Days • 4 Nights</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider block">Cadence &amp; Pacing</span>
+              <span id="meta-cadence" class="font-headline-sm text-sm font-bold text-on-surface block mt-1">Balanced Cadence</span>
+              <span class="text-[11px] text-emerald-700 font-medium">40% Shaded Rest Buffer</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider block">Party Allocation</span>
+              <span id="meta-party" class="font-headline-sm text-sm font-bold text-on-surface block mt-1">Couple (2 Travelers)</span>
+              <span class="text-[11px] text-secondary font-medium">1 Luxury Heritage Suite</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase font-bold text-on-surface-variant tracking-wider block">Dietary Protection</span>
+              <span id="meta-diet" class="font-headline-sm text-sm font-bold text-on-surface block mt-1">100% Pure Veg</span>
+              <span class="text-[11px] text-emerald-700 font-medium">Dedicated Sattvic Kitchens</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- ASSIGNED TRIP RETAINERS & ROYAL KEY HOLDERS SECTION -->
+        <section class="relative z-10 mb-12">
+          <div class="flex items-center justify-between mb-5">
+            <div>
+              <span class="font-label-caps text-[10px] uppercase tracking-wider text-secondary font-bold">Field Execution Guild</span>
+              <h2 class="font-headline-md text-xl font-bold text-primary">Assigned Trip Retainers &amp; Docents</h2>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
+              3 Retainers Active
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            
+            <!-- Retainer 1: Master Chauffeur -->
+            <div class="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    OR
+                  </div>
+                  <div>
+                    <span class="font-label-caps text-[10px] uppercase font-bold text-secondary">Private Chauffeur</span>
+                    <h3 class="font-headline-sm text-base font-bold text-on-surface">Omendra Rathore</h3>
+                  </div>
+                </div>
+                <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed">
+                  Verified by Rajasthan Tourism Board. 14 years escarpment driving experience. Mercedes-Benz E-Class with route GPS synchronization.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-xs">
+                <span class="text-emerald-700 font-bold flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  WhatsApp Active
+                </span>
+                <a href="tel:+919829012345" class="text-primary hover:text-secondary font-bold underline">Contact Driver</a>
+              </div>
+            </div>
+
+            <!-- Retainer 2: Resident Physician -->
+            <div class="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-12 h-12 rounded-2xl bg-secondary text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    SM
+                  </div>
+                  <div>
+                    <span class="font-label-caps text-[10px] uppercase font-bold text-secondary">Resident Physician</span>
+                    <h3 class="font-headline-sm text-base font-bold text-on-surface">Dr. S. K. Mehta, MD</h3>
+                  </div>
+                </div>
+                <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed">
+                  Senior Consultant, Geetanjali Medical College. Retained on-call for altitude adaptation, heat exhaustion prevention, and pediatric triage.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-xs">
+                <span class="text-secondary font-bold">24/7 Medical Desk</span>
+                <a href="tel:+919414098765" class="text-primary hover:text-secondary font-bold underline">Emergency Call</a>
+              </div>
+            </div>
+
+            <!-- Retainer 3: Royal Historian -->
+            <div class="p-5 rounded-2xl bg-surface-container-low border border-surface-container-high flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-12 h-12 rounded-2xl bg-tertiary text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                    MM
+                  </div>
+                  <div>
+                    <span class="font-label-caps text-[10px] uppercase font-bold text-secondary">Master Docent</span>
+                    <h3 class="font-headline-sm text-base font-bold text-on-surface">Mahipal S. Mewada</h3>
+                  </div>
+                </div>
+                <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed">
+                  Former Palace Archivist. Holds exclusive curatorial clearance keys to closed-door City Palace vaults and private 16th-century stepwell terraces.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-surface-container flex items-center justify-between text-xs">
+                <span class="text-primary font-bold">Private Keys Held</span>
+                <span class="text-on-surface-variant">Escort Confirmed</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- DAY-BY-DAY MASTER DOSSIER SCHEDULE -->
+        <section class="relative z-10 space-y-12 mb-14">
+          <div class="flex items-center justify-between pb-3 border-b border-surface-container">
+            <div>
+              <span class="font-label-caps text-[10px] uppercase tracking-wider text-secondary font-bold">Chronological Choreography</span>
+              <h2 class="font-headline-md text-2xl font-bold text-primary">Master Itinerary Monograph</h2>
+            </div>
+            <span class="text-xs text-on-surface-variant">5 Days Fully Choreographed</span>
+          </div>
+
+          <!-- DAY 01 -->
+          <div class="day-block border-l-2 border-primary pl-6 sm:pl-8 relative space-y-6">
+            <span class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white shadow-sm"></span>
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <span class="font-label-caps text-xs uppercase font-bold text-secondary">Day 01 • Thursday, Oct 08, 2026</span>
+                <h3 class="font-headline-sm text-xl font-bold text-on-surface">Pichola Waterways &amp; Sanctuary Arrival</h3>
+              </div>
+              <span class="text-xs font-semibold px-3 py-1 rounded-full bg-surface-container text-on-surface-variant w-fit">
+                Overnight: Ambrai Haveli, Lake Pichola
+              </span>
+            </div>
+
+            <!-- Stops -->
+            <div class="space-y-4">
+              <div class="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-secondary bg-white px-2.5 py-1 rounded-lg border border-outline-variant/30 shrink-0">02:00 PM</span>
+                <div>
+                  <h4 class="font-headline-sm text-sm font-bold text-on-surface">Maharana Pratap Airport Arrival &amp; Chauffeur Greeting</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Omendra greets you at terminal exit with chilled mineral water and jasmine garlands. 35-minute air-conditioned scenic transfer to Lake Pichola ghats.
+                  </p>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-secondary bg-white px-2.5 py-1 rounded-lg border border-outline-variant/30 shrink-0">03:45 PM</span>
+                <div>
+                  <h4 class="font-headline-sm text-sm font-bold text-on-surface">Ambrai Haveli Check-In &amp; Courtyard Plunge Pool</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Check into your private Mewari haveli suite overlooking the tranquil waters. Afternoon poolside tea and fresh almond sweets beneath carved sandstone archways.
+                  </p>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-secondary bg-white px-2.5 py-1 rounded-lg border border-outline-variant/30 shrink-0">05:45 PM</span>
+                <div>
+                  <h4 class="font-headline-sm text-sm font-bold text-on-surface">Private Sunset Wooden Boat Float &amp; Candlelight Welcome Dinner</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Float past Jagmandir Island as dusk illuminates the City Palace facade. Conclude with a traditional Mewari multi-course vegetarian thali on the Ambrai private waterfront terrace.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DAY 02 -->
+          <div class="day-block border-l-2 border-primary pl-6 sm:pl-8 relative space-y-6">
+            <span class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white shadow-sm"></span>
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <span class="font-label-caps text-xs uppercase font-bold text-secondary">Day 02 • Friday, Oct 09, 2026</span>
+                <h3 class="font-headline-sm text-xl font-bold text-on-surface">Sun Gate, Stepwell Geometries &amp; Protected Siesta</h3>
+              </div>
+              <span class="text-xs font-semibold px-3 py-1 rounded-full bg-surface-container text-on-surface-variant w-fit">
+                Overnight: Ambrai Haveli, Lake Pichola
+              </span>
+            </div>
+
+            <!-- Stops -->
+            <div class="space-y-4">
+              <div class="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-secondary bg-white px-2.5 py-1 rounded-lg border border-outline-variant/30 shrink-0">09:00 AM</span>
+                <div>
+                  <h4 class="font-headline-sm text-sm font-bold text-on-surface">City Palace Royal Citadel &amp; Closed-Door Crystal Gallery</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Escorted by Master Docent Mahipal S. Mewada. Private access to the private crystal thrones and 16th-century mirror mosaics before public crowds form.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Protected Siesta Halt -->
+              <div class="p-4 rounded-2xl bg-amber-50/80 border border-amber-300 flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-tertiary bg-white px-2.5 py-1 rounded-lg border border-amber-200 shrink-0">01:00 PM</span>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h4 class="font-headline-sm text-sm font-bold text-amber-950">Protected Midday Thermal Reprieve (1:00 PM – 3:45 PM)</h4>
+                    <span class="px-2 py-0.2 rounded-full bg-amber-200 text-amber-900 text-[10px] font-bold">Invariant Locked</span>
+                  </div>
+                  <p class="font-body-sm text-xs text-amber-900 mt-1 leading-relaxed">
+                    Zero outdoor sun exposure. Shaded courtyard lunch followed by rest in air-conditioned haveli suite during peak 31°C midday heat.
+                  </p>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-secondary bg-white px-2.5 py-1 rounded-lg border border-outline-variant/30 shrink-0">03:45 PM</span>
+                <div>
+                  <h4 class="font-headline-sm text-sm font-bold text-on-surface">Subterranean Stepwell Acoustics &amp; Golden Hour Geometric Descent</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Descend 4 levels below ground into historic sandstone stairways. Acoustic resonance explanation and private terrace chai.
+                  </p>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-secondary bg-white px-2.5 py-1 rounded-lg border border-outline-variant/30 shrink-0">06:00 PM</span>
+                <div>
+                  <h4 class="font-headline-sm text-sm font-bold text-on-surface">Jagmandir Island Palace Sunset High Tea</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Solar boat crossing to the island palace. Evening saffron tea and views of the sun sinking behind the Aravalli mountain spine.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DAY 03 -->
+          <div class="day-block border-l-2 border-primary pl-6 sm:pl-8 relative space-y-6">
+            <span class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white shadow-sm"></span>
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <span class="font-label-caps text-xs uppercase font-bold text-secondary">Day 03 • Saturday, Oct 10, 2026</span>
+                <h3 class="font-headline-sm text-xl font-bold text-on-surface">Aravalli Mountain Ridge &amp; Ranakpur Marble Forest</h3>
+              </div>
+              <span class="text-xs font-semibold px-3 py-1 rounded-full bg-surface-container text-on-surface-variant w-fit">
+                Overnight: Rawla Narlai Heritage Retreat
+              </span>
+            </div>
+
+            <!-- Stops -->
+            <div class="space-y-4">
+              <div class="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-secondary bg-white px-2.5 py-1 rounded-lg border border-outline-variant/30 shrink-0">08:30 AM</span>
+                <div>
+                  <h4 class="font-headline-sm text-sm font-bold text-on-surface">Scenic Escarpment Drive Through Shaded Mountain Passes</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Omendra pilots the Mercedes through the Aravalli hills with stops at hillside viewpoint temples and organic pomegranate orchards.
+                  </p>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-secondary bg-white px-2.5 py-1 rounded-lg border border-outline-variant/30 shrink-0">10:45 AM</span>
+                <div>
+                  <h4 class="font-headline-sm text-sm font-bold text-on-surface">Ranakpur 1,444 Marble Pillar Temple Exploration</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Resident scholar guidance through the intricately carved 15th-century marble temple. Acoustic bells and cool subterranean stone floors.
+                  </p>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-secondary bg-white px-2.5 py-1 rounded-lg border border-outline-variant/30 shrink-0">04:30 PM</span>
+                <div>
+                  <h4 class="font-headline-sm text-sm font-bold text-on-surface">Rawla Narlai Granite Hill Leopard Safari &amp; 100-Diya Stepwell Dinner</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Private 4x4 leopard tracker drive along Jawai granite boulders followed by an unforgettable private candlelit dinner inside an ancient baori stepwell.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DAY 04 -->
+          <div class="day-block border-l-2 border-primary pl-6 sm:pl-8 relative space-y-6">
+            <span class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white shadow-sm"></span>
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <span class="font-label-caps text-xs uppercase font-bold text-secondary">Day 04 • Sunday, Oct 11, 2026</span>
+                <h3 class="font-headline-sm text-xl font-bold text-on-surface">Ancestral Vegetable Dye &amp; Miniature Painting Guilds</h3>
+              </div>
+              <span class="text-xs font-semibold px-3 py-1 rounded-full bg-surface-container text-on-surface-variant w-fit">
+                Overnight: Ambrai Haveli, Lake Pichola
+              </span>
+            </div>
+
+            <!-- Stops -->
+            <div class="space-y-4">
+              <div class="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-secondary bg-white px-2.5 py-1 rounded-lg border border-outline-variant/30 shrink-0">09:30 AM</span>
+                <div>
+                  <h4 class="font-headline-sm text-sm font-bold text-on-surface">17th-Century Vegetable Dye &amp; Natural Indigo Block Printing Atelier</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Master artisan-guided workshop. Hand-grind your own natural indigo and pomegranate dyes to print a personalized mulberry silk scarf.
+                  </p>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-secondary bg-white px-2.5 py-1 rounded-lg border border-outline-variant/30 shrink-0">03:45 PM</span>
+                <div>
+                  <h4 class="font-headline-sm text-sm font-bold text-on-surface">Closed-Door Miniature Court Painter Atelier</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Private audience with a 7th-generation court painter using brushes fashioned from a single squirrel hair. Witness gold-leaf burnishing.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DAY 05 -->
+          <div class="day-block border-l-2 border-primary pl-6 sm:pl-8 relative space-y-6">
+            <span class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary border-4 border-white shadow-sm"></span>
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <span class="font-label-caps text-xs uppercase font-bold text-secondary">Day 05 • Monday, Oct 12, 2026</span>
+                <h3 class="font-headline-sm text-xl font-bold text-on-surface">Dawn Haveli Reflections &amp; Airport Farewell</h3>
+              </div>
+              <span class="text-xs font-semibold px-3 py-1 rounded-full bg-surface-container text-on-surface-variant w-fit">
+                Trip Concluded
+              </span>
+            </div>
+
+            <!-- Stops -->
+            <div class="space-y-4">
+              <div class="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-secondary bg-white px-2.5 py-1 rounded-lg border border-outline-variant/30 shrink-0">08:30 AM</span>
+                <div>
+                  <h4 class="font-headline-sm text-sm font-bold text-on-surface">Silent Waterfront Breakfast &amp; Leather Monograph Presentation</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Enjoy sunrise reflections across Lake Pichola. Concierge delivers your physical leather-bound verified monograph with stamped route seals.
+                  </p>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-surface-container-low/70 border border-surface-container flex items-start gap-4">
+                <span class="font-mono text-xs font-bold text-secondary bg-white px-2.5 py-1 rounded-lg border border-outline-variant/30 shrink-0">11:15 AM</span>
+                <div>
+                  <h4 class="font-headline-sm text-sm font-bold text-on-surface">Assisted Airport Transfer &amp; VIP Departure Clearance</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1 leading-relaxed">
+                    Omendra escorts you to Maharana Pratap Airport with dedicated baggage assistance.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- EMERGENCY DIAL PACK & OFFLINE SAFETY DESK -->
+        <section class="relative z-10 pt-8 border-t-2 border-primary/20">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-headline-sm text-base font-bold text-primary">Emergency &amp; Offline Dial Pack</h3>
+            <span class="text-[11px] font-bold text-secondary uppercase">24/7 Monitored</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container">
+              <span class="text-[10px] uppercase font-bold text-on-surface-variant block">Trevoo Concierge</span>
+              <strong class="font-headline-sm text-sm text-primary block mt-0.5">+91 294 242 8800</strong>
+            </div>
+            <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container">
+              <span class="text-[10px] uppercase font-bold text-on-surface-variant block">Chauffeur Omendra</span>
+              <strong class="font-headline-sm text-sm text-primary block mt-0.5">+91 98290 12345</strong>
+            </div>
+            <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container">
+              <span class="text-[10px] uppercase font-bold text-on-surface-variant block">Geetanjali Medical Desk</span>
+              <strong class="font-headline-sm text-sm text-primary block mt-0.5">+91 294 250 0000</strong>
+            </div>
+            <div class="p-3 rounded-xl bg-surface-container-low border border-surface-container">
+              <span class="text-[10px] uppercase font-bold text-on-surface-variant block">Tourist Police Helpline</span>
+              <strong class="font-headline-sm text-sm text-primary block mt-0.5">1363 (Toll Free)</strong>
+            </div>
+          </div>
+        </section>
+
+      </article>
+
+    </div>
+  </main>
+
+  <!-- SHARE MODAL DIALOG (NO-PRINT) -->
+  <div id="share-modal" class="no-print fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-surface-container-high relative">
+      <button type="button" id="btn-close-share-modal" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface transition-colors">
+        <span class="material-symbols-outlined text-[18px]">close</span>
+      </button>
+
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center">
+          <span class="material-symbols-outlined text-[20px]">share</span>
+        </div>
+        <div>
+          <h4 class="font-headline-sm text-lg font-bold text-on-surface">Share Journey Monograph</h4>
+          <span class="text-xs text-on-surface-variant">Unlisted Companion Link</span>
+        </div>
+      </div>
+
+      <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed mb-5">
+        Companions get instant access to the day-by-day choreography, driver contacts, and emergency dial pack without ability to alter locked dates.
+      </p>
+
+      <!-- URL Input & Copy Button -->
+      <div class="flex items-center gap-2 p-1.5 rounded-2xl bg-surface-container border border-outline-variant/40 mb-4">
+        <input type="text" id="share-url-input" readonly value="https://trevoo.com/dossier/udaipur-oct26-8842" class="w-full bg-transparent px-3 text-xs font-mono text-on-surface focus:outline-none">
+        <button type="button" id="btn-copy-share-url" class="px-4 py-2 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold shrink-0 transition-colors">
+          Copy
+        </button>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="grid grid-cols-2 gap-3 mb-4">
+        <a id="btn-whatsapp-share" target="_blank" href="#" class="p-3 rounded-2xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-900 flex items-center justify-center gap-2 text-xs font-bold transition-colors">
+          <span class="material-symbols-outlined text-[18px] text-emerald-700">chat</span>
+          <span>WhatsApp</span>
+        </a>
+        <button type="button" onclick="window.print()" class="p-3 rounded-2xl bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center gap-2 text-xs font-bold transition-colors">
+          <span class="material-symbols-outlined text-[18px]">print</span>
+          <span>Save PDF</span>
+        </button>
+      </div>
+
+      <div class="p-3 rounded-xl bg-surface-container-low text-[11px] text-on-surface-variant text-center">
+        Dossier ID: <span class="font-mono font-bold text-primary">TRV-2026-8842</span> • Reality-Locked
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING PERSISTENT FOOTER BAR (NO-PRINT) -->
+  <div class="no-print fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-t border-surface-container-high py-4 px-6 lg:px-12 shadow-[0_-4px_24px_rgba(0,0,0,0.06)]">
+    <div class="max-w-[1380px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      
+      <!-- Selection Summary Readout -->
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-700 text-white flex items-center justify-center shrink-0 shadow-sm">
+          <span class="material-symbols-outlined text-[24px]">verified</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-label-caps text-xs uppercase font-bold text-emerald-700">Confirmed Dossier TRV-8842</span>
+            <span class="text-on-surface-variant/40">•</span>
+            <span class="px-2 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Reality-Locked</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <h4 class="font-headline-sm text-base sm:text-lg font-bold text-on-surface">
+              Udaipur &amp; The Aravalli Escarpment
+            </h4>
+            <span class="font-body-sm text-xs font-semibold text-on-surface-variant">
+              (Oct 08 – Oct 12, 2026)
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+        <a href="S7_Builder.html" class="px-5 py-3 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-sm font-semibold transition-colors">
+          Back to Builder
+        </a>
+        <button type="button" onclick="window.print()" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-surface-container-high hover:bg-surface-container text-on-surface font-headline-sm text-sm font-semibold transition-colors">
+          <span class="material-symbols-outlined text-[18px]">print</span>
+          <span>Print / PDF</span>
+        </button>
+        <button type="button" id="btn-share-footer" class="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full bg-primary hover:bg-primary-container text-white font-headline-sm text-sm font-semibold transition-all shadow-md hover:shadow-lg">
+          <span class="material-symbols-outlined text-[18px]">share</span>
+          <span>Share Companion Link</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: MASTER DOSSIER ENGINE -->
+  <script>
+    // 1. Session Hydration
+    function loadDossierSession() {
+      try {
+        const cal = sessionStorage.getItem('trevoo_calendar_selection');
+        const pref = sessionStorage.getItem('trevoo_preferences');
+        const arch = sessionStorage.getItem('trevoo_selected_archetype');
+
+        if (arch) {
+          const parsedArch = JSON.parse(arch);
+          if (parsedArch.title) {
+            document.getElementById('monograph-title').textContent = parsedArch.title;
+          }
+        }
+
+        if (cal) {
+          const parsedCal = JSON.parse(cal);
+          if (parsedCal.startDate && parsedCal.endDate) {
+            const startParts = parsedCal.startDate.split('-');
+            const endParts = parsedCal.endDate.split('-');
+            const str = `Oct ${startParts[2]} – Oct ${endParts[2]}, ${startParts[0]}`;
+            document.getElementById('meta-dates').textContent = str;
+          }
+        }
+
+        if (pref) {
+          const parsedPref = JSON.parse(pref);
+          if (parsedPref.party) {
+            let pLabel = "Couple (2 Travelers)";
+            if (parsedPref.party.type === 'SOLO') pLabel = "Solo Seeker (1 Traveler)";
+            else if (parsedPref.party.type === 'FAMILY_WITH_KIDS') pLabel = "Family with Kids (4 Travelers)";
+            else if (parsedPref.party.type === 'FRIENDS_GROUP') pLabel = "Friends Guild (4 Travelers)";
+            document.getElementById('meta-party').textContent = pLabel;
+          }
+          if (parsedPref.pacing) {
+            let paceLabel = "Balanced Cadence";
+            if (parsedPref.pacing === 'RELAXED') paceLabel = "Relaxed Pace";
+            else if (parsedPref.pacing === 'PACKED') paceLabel = "Packed Immersion";
+            document.getElementById('meta-cadence').textContent = paceLabel;
+          }
+          if (parsedPref.dietaryEthos) {
+            let dietLabel = "100% Pure Veg";
+            if (parsedPref.dietaryEthos === 'VEG_AND_EGGS') dietLabel = "Veg + Eggs Artisan";
+            else if (parsedPref.dietaryEthos === 'NON_VEG') dietLabel = "Regional Non-Veg Curations";
+            else if (parsedPref.dietaryEthos === 'NO_PREFERENCE') dietLabel = "Chef Carte Blanche";
+            document.getElementById('meta-diet').textContent = dietLabel;
+          }
+        }
+      } catch (e) {
+        console.warn('Session data read error:', e);
+      }
+    }
+
+    // 2. Share Modal Controls
+    const shareModal = document.getElementById('share-modal');
+    const openShareBtn = document.getElementById('btn-open-share-modal');
+    const footerShareBtn = document.getElementById('btn-share-footer');
+    const closeShareBtn = document.getElementById('btn-close-share-modal');
+    const copyUrlBtn = document.getElementById('btn-copy-share-url');
+    const toastCopyBtn = document.getElementById('btn-copy-link-toast');
+    const shareUrlInput = document.getElementById('share-url-input');
+    const whatsappBtn = document.getElementById('btn-whatsapp-share');
+
+    function openModal() {
+      shareModal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      shareModal.classList.add('hidden');
+    }
+
+    openShareBtn.addEventListener('click', openModal);
+    footerShareBtn.addEventListener('click', openModal);
+    closeShareBtn.addEventListener('click', closeModal);
+
+    shareModal.addEventListener('click', (e) => {
+      if (e.target === shareModal) closeModal();
+    });
+
+    // Copy Link function
+    function copyShareLink(btn) {
+      navigator.clipboard.writeText(shareUrlInput.value).then(() => {
+        const origText = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = origText;
+        }, 2000);
+      }).catch(err => {
+        console.error('Copy failed:', err);
+      });
+    }
+
+    copyUrlBtn.addEventListener('click', () => copyShareLink(copyUrlBtn));
+    toastCopyBtn.addEventListener('click', () => copyShareLink(toastCopyBtn));
+
+    // WhatsApp Pre-Formatted Text
+    const shareText = encodeURIComponent("Check out our confirmed Trevoo Master Travel Dossier for Rajasthan: Udaipur & The Aravalli Escarpment (Oct 08 – Oct 12, 2026). Verified 0% Backtracking & Luxury Havelis: https://trevoo.com/dossier/udaipur-oct26-8842");
+    whatsappBtn.href = `https://api.whatsapp.com/send?text=${shareText}`;
+
+    // Initialize
+    loadDossierSession();
+  </script>
+</body>
+</html>
+

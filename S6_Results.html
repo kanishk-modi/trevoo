@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trevoo — Result Hierarchy & Tailored Archetypes (Screen 06)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .archetype-card {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .archetype-card:hover {
+      transform: translateY(-2px);
+    }
+    .archetype-card.selected {
+      border-color: #01265B !important;
+      box-shadow: 0 16px 36px -8px rgba(1, 38, 91, 0.12), 0 6px 16px -4px rgba(1, 38, 91, 0.06);
+    }
+    .exclusive-badge {
+      transition: all 0.15s ease-out;
+    }
+  </style>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "deep-navy": "#01265B",
+            "ocean-teal": "#096D85",
+            "sky-blue": "#19879E",
+            "sunset-orange": "#F59346",
+            "slate-gray": "#848485",
+            primary: "#01265B",
+            "primary-container": "#083C6B",
+            "primary-fixed": "#D8E8F8",
+            "primary-fixed-dim": "#84A8CE",
+            "on-primary": "#ffffff",
+            secondary: "#096D85",
+            "secondary-container": "#E1F3F7",
+            "on-secondary-container": "#053E4C",
+            tertiary: "#F59346",
+            "tertiary-container": "#572400",
+            "tertiary-fixed": "#FEF4EB",
+            "on-tertiary-fixed": "#D86E1B",
+            surface: "#F7F9FB",
+            "surface-bright": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#EEF2F6",
+            "surface-container": "#E5EBF0",
+            "surface-container-high": "#DDE4EA",
+            "surface-container-highest": "#D4DCE2",
+            "on-surface": "#0F172A",
+            "on-surface-variant": "#475569",
+            outline: "#848485",
+            "outline-variant": "#CBD5E1",
+            obsidian: "#0A131F"
+          },
+          fontFamily: {
+            "display-hero": ["Epilogue", "sans-serif"],
+            "headline-xl": ["Epilogue", "sans-serif"],
+            "headline-lg": ["Epilogue", "sans-serif"],
+            "headline-md": ["Epilogue", "sans-serif"],
+            "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "body-xl": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-caps": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "tabular-nums": ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-primary selection:text-white">
+
+  <!-- TOP NAVIGATION HEADER -->
+  <header id="main-header" class="fixed top-0 left-0 right-0 w-full z-50 bg-[#101413]/95 backdrop-blur-md border-b border-white/10 text-white shadow-sm transition-all duration-300">
+    <div class="h-20 max-w-[1380px] mx-auto px-6 lg:px-12 flex items-center justify-between gap-6">
+      
+      <!-- Logo Anchor (Singular Monochrome Logo at 2x Relative Area) -->
+      <a href="index.html" class="inline-flex items-center group py-1 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded-lg transition-transform duration-200 hover:scale-[1.03]" aria-label="Trevoo Home">
+        <img alt="Trevoo" class="h-14 md:h-16 w-auto object-contain drop-shadow-[0_2px_10px_rgba(255,255,255,0.4)]" src="assets/trevoo-color-logo.png"/>
+      </a>
+
+      <!-- Primary Nav Menu -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors py-1" data-path="explore" href="S2_Explore.html">Explore</a>
+        <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors py-1" data-path="destinations" href="Destinations.html">Destinations</a>
+        <a aria-current="page" class="transition-colors py-1 text-white font-medium relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[1.5px] after:bg-white" data-path="smart-planner" href="S3_DateSelection.html">Smart Planner</a>
+        <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors py-1" data-path="journal" href="Journal.html">Journal</a>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="flex items-center gap-4">
+        <div class="hidden xl:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-sm">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="font-label-sm text-label-sm tracking-wide text-white/90 uppercase">India • Autumn 2026</span>
+        </div>
+        <a class="inline-flex items-center justify-center px-5 py-2 rounded-full border border-white/30 hover:border-white/70 bg-white/10 hover:bg-white/20 text-white font-label-md text-label-md transition-all backdrop-blur-sm shadow-sm" data-path="sign-in" href="#">
+          Sign In
+        </a>
+        <a class="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors" data-path="profile" href="#">
+          <span class="material-symbols-outlined text-white text-[18px]">person</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN RESULTS WORKSPACE -->
+  <main class="w-full pt-28 pb-36 flex-1">
+    <div class="max-w-[1380px] mx-auto px-6 lg:px-12">
+
+      <!-- STAGE PROGRESSION BREADCRUMB STRIP -->
+      <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-surface-container-high">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-full bg-primary-container text-on-primary font-headline-sm text-sm font-semibold flex items-center justify-center shadow-sm">03</span>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-label-caps text-[11px] uppercase tracking-wider text-secondary font-semibold">Stage 03 of 04</span>
+              <span class="text-on-surface-variant/40">•</span>
+              <span class="font-label-caps text-[11px] uppercase tracking-wider text-on-surface-variant font-medium">Result Hierarchy & Trust Building</span>
+            </div>
+            <h1 class="font-headline-lg text-2xl md:text-3xl font-bold text-on-surface tracking-tight">Your Tailored Route Archetypes</h1>
+          </div>
+        </div>
+
+        <!-- Synthesis Telemetry Capsule -->
+        <div class="flex items-center gap-3 bg-surface-container-low px-4 py-2.5 rounded-2xl border border-outline-variant/40 shadow-xs">
+          <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[18px]">verified</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2">
+              <span class="font-label-caps text-[10px] uppercase font-bold text-emerald-800 tracking-wider">Synthesis Complete</span>
+              <span class="text-on-surface-variant/40">•</span>
+              <span class="font-label-sm text-[11px] font-semibold text-on-surface-variant">0.00% Backtrack Verified</span>
+            </div>
+            <span id="active-session-summary" class="font-headline-sm text-xs font-bold text-on-surface">Udaipur Corridor • Oct 08 – Oct 12, 2026 (Couple)</span>
+          </div>
+          <a href="S4_Preferences.html" class="ml-2 text-xs text-primary hover:text-secondary font-semibold underline underline-offset-2 flex items-center gap-0.5">
+            <span>Tweak</span>
+            <span class="material-symbols-outlined text-[14px]">tune</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- INTRO & ARCHETYPE SELECTOR PILLS -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+        <div>
+          <p class="font-body-xl text-base md:text-lg text-on-surface-variant max-w-2xl">
+            Calculated across 340+ verified heritage havelis, solar sightlines, and your individual cadence constraints. Select an archetype to inspect its daily choreography.
+          </p>
+        </div>
+
+        <!-- Archetype Quick Switcher Tabs -->
+        <div class="flex items-center gap-2 bg-surface-container-low p-1.5 rounded-2xl border border-outline-variant/40 shrink-0 overflow-x-auto">
+          <button type="button" data-archetype="rank1" class="archetype-tab px-4 py-2 rounded-xl text-xs font-bold transition-all bg-primary text-white shadow-sm flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Rank #1 (98% Match)</span>
+          </button>
+          <button type="button" data-archetype="rank2" class="archetype-tab px-4 py-2 rounded-xl text-xs font-semibold text-on-surface-variant hover:text-on-surface hover:bg-white/60 transition-all flex items-center gap-2">
+            <span>Rank #2 (92% Match)</span>
+          </button>
+          <button type="button" data-archetype="rank3" class="archetype-tab px-4 py-2 rounded-xl text-xs font-semibold text-on-surface-variant hover:text-on-surface hover:bg-white/60 transition-all flex items-center gap-2">
+            <span>Rank #3 (89% Match)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- MAIN 12-COLUMN CONTENT LAYOUT -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+        <!-- LEFT 8 COLS: PRIMARY RECOMMENDED ARCHETYPE CARD -->
+        <div class="lg:col-span-8 flex flex-col gap-8">
+          
+          <!-- PRIMARY ARCHETYPE CONTAINER (DYNAMICALLY UPDATED) -->
+          <article id="primary-archetype-container" class="archetype-card selected bg-surface-container-lowest rounded-3xl border-2 border-primary overflow-hidden shadow-md">
+            
+            <!-- Hero Top Banner with Image & Match Pill -->
+            <div class="relative h-64 sm:h-80 w-full overflow-hidden flex flex-col justify-between p-6 sm:p-8 text-white">
+              <div id="archetype-hero-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-500 scale-100 hover:scale-105" style="background-image: url('https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1400&q=85');"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20"></div>
+
+              <!-- Top Match Header Badges -->
+              <div class="relative z-10 flex flex-wrap items-center justify-between gap-3">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/90 border border-white/20 backdrop-blur-md text-white shadow-sm">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span id="archetype-match-badge" class="font-headline-sm text-xs font-bold tracking-wide">98% Cadence Match • Match Rank #1</span>
+                </div>
+
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sunset-orange/90 border border-amber-300/40 text-amber-950 font-label-caps text-xs font-bold backdrop-blur-md shadow-sm">
+                  <span class="material-symbols-outlined text-[16px]">bed</span>
+                  <span id="archetype-inventory-badge">Only 2 Haveli Suites Left</span>
+                </div>
+              </div>
+
+              <!-- Bottom Hero Content -->
+              <div class="relative z-10">
+                <span id="archetype-category" class="font-label-caps text-[11px] uppercase tracking-wider text-amber-300 font-bold block mb-1">
+                  Mewari Lake Havelis &amp; Artisan Guilds
+                </span>
+                <h2 id="archetype-title" class="font-display-hero text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
+                  Udaipur &amp; The Aravalli Escarpment
+                </h2>
+                <p id="archetype-subtitle" class="font-body-md text-xs sm:text-sm text-white/80 mt-2 max-w-2xl line-clamp-2">
+                  A contemplative journey through Mewari lake havelis, 16th-century stepwells, private miniature painting ateliers, and tranquil palace boat floats.
+                </p>
+              </div>
+            </div>
+
+            <!-- KEY METRICS ROW (4-COLUMN KPI GRID) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-surface-container bg-surface-container-low/60 border-b border-surface-container">
+              
+              <!-- Metric 1: Seasonality -->
+              <div class="p-4 sm:p-5 flex flex-col justify-center">
+                <div class="flex items-center gap-1.5 text-secondary text-xs font-semibold">
+                  <span class="material-symbols-outlined text-[18px]">thermostat</span>
+                  <span>Seasonality Score</span>
+                </div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span id="metric-seasonality" class="font-headline-md text-xl sm:text-2xl font-bold text-primary">4.9</span>
+                  <span class="text-xs text-on-surface-variant font-medium">/ 5.0</span>
+                </div>
+                <span class="text-[11px] text-emerald-700 font-medium mt-0.5">Optimal Golden Hour</span>
+              </div>
+
+              <!-- Metric 2: Crowd Index -->
+              <div class="p-4 sm:p-5 flex flex-col justify-center">
+                <div class="flex items-center gap-1.5 text-secondary text-xs font-semibold">
+                  <span class="material-symbols-outlined text-[18px]">group</span>
+                  <span>Crowd Footfall</span>
+                </div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span id="metric-crowd" class="font-headline-md text-xl sm:text-2xl font-bold text-primary">Low</span>
+                  <span class="text-xs text-on-surface-variant font-medium">(Pre-Diwali)</span>
+                </div>
+                <span class="text-[11px] text-emerald-700 font-medium mt-0.5">Minimal Tourist Surge</span>
+              </div>
+
+              <!-- Metric 3: Estimated Daily Cost -->
+              <div class="p-4 sm:p-5 flex flex-col justify-center">
+                <div class="flex items-center gap-1.5 text-secondary text-xs font-semibold">
+                  <span class="material-symbols-outlined text-[18px]">payments</span>
+                  <span>Daily Investment</span>
+                </div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span id="metric-daily-cost" class="font-headline-md text-xl sm:text-2xl font-bold text-primary">₹28,500</span>
+                  <span class="text-xs text-on-surface-variant font-medium">/ day</span>
+                </div>
+                <span class="text-[11px] text-on-surface-variant mt-0.5">Suite + Chauffeur + Docent</span>
+              </div>
+
+              <!-- Metric 4: Transit Overhead -->
+              <div class="p-4 sm:p-5 flex flex-col justify-center">
+                <div class="flex items-center gap-1.5 text-secondary text-xs font-semibold">
+                  <span class="material-symbols-outlined text-[18px]">commute</span>
+                  <span>Transit Overhead</span>
+                </div>
+                <div class="flex items-baseline gap-1 mt-1">
+                  <span id="metric-transit-time" class="font-headline-md text-xl sm:text-2xl font-bold text-primary">3.5h</span>
+                  <span class="text-xs text-on-surface-variant font-medium">Total</span>
+                </div>
+                <span class="text-[11px] text-emerald-700 font-medium mt-0.5">0.00% Backtrack Ratio</span>
+              </div>
+
+            </div>
+
+            <!-- CURATED DAILY EXCLUSIVES (THE UNFAIR ADVANTAGES) -->
+            <div class="p-6 sm:p-8 border-b border-surface-container">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="font-headline-sm text-lg font-bold text-on-surface">Curated Exclusives &amp; Royal Access</h3>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-0.5">Hand-picked unlisted privileges included in this route dossier.</p>
+                </div>
+                <span class="px-2.5 py-1 rounded-full bg-secondary-container text-secondary text-xs font-bold">4 Exclusives Locked</span>
+              </div>
+
+              <div id="exclusives-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                
+                <!-- Exclusive 1 -->
+                <div class="exclusive-badge p-3.5 rounded-2xl bg-surface-container-low border border-surface-container-high flex items-start gap-3">
+                  <span class="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
+                    <span class="material-symbols-outlined text-[18px]">kayaking</span>
+                  </span>
+                  <div>
+                    <strong class="font-headline-sm text-sm font-bold text-on-surface block">Dawn Lake Pichola Wooden Boat Float</strong>
+                    <span class="font-body-sm text-xs text-on-surface-variant mt-0.5 block leading-relaxed">
+                      Silent private oars before public motorboats begin. Reflective light onto City Palace outer ramparts.
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Exclusive 2 -->
+                <div class="exclusive-badge p-3.5 rounded-2xl bg-surface-container-low border border-surface-container-high flex items-start gap-3">
+                  <span class="w-9 h-9 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center shrink-0 mt-0.5">
+                    <span class="material-symbols-outlined text-[18px]">vpn_key</span>
+                  </span>
+                  <div>
+                    <strong class="font-headline-sm text-sm font-bold text-on-surface block">Closed-Door Crystal Gallery Curatorial Tour</strong>
+                    <span class="font-body-sm text-xs text-on-surface-variant mt-0.5 block leading-relaxed">
+                      Private after-hours viewing escorted by royal historian with Mewari archive access.
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Exclusive 3 -->
+                <div class="exclusive-badge p-3.5 rounded-2xl bg-surface-container-low border border-surface-container-high flex items-start gap-3">
+                  <span class="w-9 h-9 rounded-xl bg-amber-500/10 text-tertiary flex items-center justify-center shrink-0 mt-0.5">
+                    <span class="material-symbols-outlined text-[18px]">brush</span>
+                  </span>
+                  <div>
+                    <strong class="font-headline-sm text-sm font-bold text-on-surface block">17th-Century Vegetable Dye Atelier</strong>
+                    <span class="font-body-sm text-xs text-on-surface-variant mt-0.5 block leading-relaxed">
+                      Master artisan-guided block printing with hand-ground indigo and turmeric mordants.
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Exclusive 4 -->
+                <div class="exclusive-badge p-3.5 rounded-2xl bg-surface-container-low border border-surface-container-high flex items-start gap-3">
+                  <span class="w-9 h-9 rounded-xl bg-sky-blue/10 text-sky-blue flex items-center justify-center shrink-0 mt-0.5">
+                    <span class="material-symbols-outlined text-[18px]">coffee</span>
+                  </span>
+                  <div>
+                    <strong class="font-headline-sm text-sm font-bold text-on-surface block">Subterranean Stepwell Acoustic Tea</strong>
+                    <span class="font-body-sm text-xs text-on-surface-variant mt-0.5 block leading-relaxed">
+                      Chai and local almond kachori served 4 levels below surface inside private Bundi stepwell.
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- TRANSPARENT RECOMMENDATION CALCULUS ("WHY TREVOO CHOSE THIS") -->
+            <div class="p-6 sm:p-8 bg-surface-container-low/40">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="material-symbols-outlined text-secondary text-[20px]">psychology</span>
+                <h3 class="font-headline-sm text-base font-bold text-primary">Transparent Recommendation Calculus</h3>
+                <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-secondary-container text-secondary">Algorithmic Proof</span>
+              </div>
+
+              <div class="space-y-2.5 text-xs text-on-surface-variant">
+                <div class="flex items-start gap-2.5">
+                  <span class="material-symbols-outlined text-emerald-600 text-[18px] shrink-0 mt-0.5">check_circle</span>
+                  <p id="calculus-pacing">
+                    <strong>Pacing Alignment:</strong> Your selected <em>Balanced Cadence</em> is strictly preserved. Day capacity averages 6.2 hours out of an 8.0-hour ceiling, leaving 3.8 hours of uninterrupted afternoon shaded reprieves.
+                  </p>
+                </div>
+                <div class="flex items-start gap-2.5">
+                  <span class="material-symbols-outlined text-emerald-600 text-[18px] shrink-0 mt-0.5">check_circle</span>
+                  <p id="calculus-weather">
+                    <strong>Thermal Invariant:</strong> Zero outdoor architectural halts scheduled between 1:00 PM and 3:45 PM. Midday peak heat (31°C) is spent inside courtyard haveli pools or sheltered museum vaults.
+                  </p>
+                </div>
+                <div class="flex items-start gap-2.5">
+                  <span class="material-symbols-outlined text-emerald-600 text-[18px] shrink-0 mt-0.5">check_circle</span>
+                  <p id="calculus-dietary">
+                    <strong>Dietary Protection:</strong> 100% Pure Vegetarian dining verified across both Ambrai Haveli and Rawla Narlai kitchens with zero cross-contamination.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Primary Action Container -->
+              <div class="mt-6 pt-6 border-t border-surface-container flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2 text-xs text-on-surface-variant">
+                  <span class="material-symbols-outlined text-[16px] text-emerald-600">lock</span>
+                  <span>Instant Builder Handover • Customizable Day Architecture</span>
+                </div>
+
+                <a id="btn-open-builder-primary" href="S7_Builder.html" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-full bg-primary hover:bg-primary-container text-white font-headline-sm text-sm font-semibold transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 group">
+                  <span>Plan This Trip (Open Builder)</span>
+                  <span class="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
+                </a>
+              </div>
+            </div>
+
+          </article>
+
+          <!-- ALTERNATIVE ARCHETYPES CARDS (RANK #2 & RANK #3) -->
+          <div class="flex flex-col gap-4">
+            <h3 class="font-headline-sm text-lg font-bold text-on-surface">Alternative Route Archetypes</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
+              <!-- Archetype 2: Desert Stargazing -->
+              <div id="card-rank2" class="archetype-card bg-surface-container-lowest rounded-3xl border border-surface-container-high p-6 flex flex-col justify-between shadow-xs hover:border-secondary transition-all">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="px-2.5 py-1 rounded-full bg-primary/10 text-primary font-headline-sm text-xs font-bold">
+                      92% Cadence Match • Rank #2
+                    </span>
+                    <span class="text-xs font-bold text-on-surface-variant">₹26,000 / d</span>
+                  </div>
+
+                  <h4 class="font-headline-sm text-lg font-bold text-on-surface">The Blue City &amp; Thar Dunes</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1.5 leading-relaxed">
+                    Desert Stargazing &amp; Sandstone Forts. Dawn walk on Mehrangarh ramparts, private dunes under the Milky Way, Thar folk music.
+                  </p>
+
+                  <div class="mt-4 pt-3 border-t border-surface-container space-y-1.5 text-xs text-on-surface-variant">
+                    <div class="flex items-center justify-between">
+                      <span>Rest Buffer:</span>
+                      <span class="font-semibold text-primary">35% Buffer</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span>Transit Time:</span>
+                      <span class="font-semibold text-primary">4.2h Highway Transit</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span>Sanctuary:</span>
+                      <span class="font-semibold text-primary">Mihir Garh Fortress</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-surface-container flex items-center justify-between">
+                  <button type="button" data-swap="rank2" class="btn-swap-archetype text-xs font-bold text-secondary hover:text-primary flex items-center gap-1 transition-colors">
+                    <span>Inspect Archetype</span>
+                    <span class="material-symbols-outlined text-[16px]">visibility</span>
+                  </button>
+                  <button type="button" data-select="rank2" class="btn-select-archetype px-4 py-2 rounded-full bg-surface-container-low hover:bg-primary hover:text-white text-xs font-bold text-on-surface transition-all">
+                    Select Rank #2
+                  </button>
+                </div>
+              </div>
+
+              <!-- Archetype 3: Living Architecture -->
+              <div id="card-rank3" class="archetype-card bg-surface-container-lowest rounded-3xl border border-surface-container-high p-6 flex flex-col justify-between shadow-xs hover:border-secondary transition-all">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="px-2.5 py-1 rounded-full bg-primary/10 text-primary font-headline-sm text-xs font-bold">
+                      89% Cadence Match • Rank #3
+                    </span>
+                    <span class="text-xs font-bold text-on-surface-variant">₹31,000 / d</span>
+                  </div>
+
+                  <h4 class="font-headline-sm text-lg font-bold text-on-surface">Jaipur &amp; Shekhawati Frescoes</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant mt-1.5 leading-relaxed">
+                    Living Architecture &amp; Painted Havelis. Dawn at Panna Meena Stepwell, closed-door fresco corridors, private gemstone atelier.
+                  </p>
+
+                  <div class="mt-4 pt-3 border-t border-surface-container space-y-1.5 text-xs text-on-surface-variant">
+                    <div class="flex items-center justify-between">
+                      <span>Rest Buffer:</span>
+                      <span class="font-semibold text-primary">38% Buffer</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span>Transit Time:</span>
+                      <span class="font-semibold text-primary">4.0h Heritage Transit</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span>Sanctuary:</span>
+                      <span class="font-semibold text-primary">Samode Palace Wings</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-surface-container flex items-center justify-between">
+                  <button type="button" data-swap="rank3" class="btn-swap-archetype text-xs font-bold text-secondary hover:text-primary flex items-center gap-1 transition-colors">
+                    <span>Inspect Archetype</span>
+                    <span class="material-symbols-outlined text-[16px]">visibility</span>
+                  </button>
+                  <button type="button" data-select="rank3" class="btn-select-archetype px-4 py-2 rounded-full bg-surface-container-low hover:bg-primary hover:text-white text-xs font-bold text-on-surface transition-all">
+                    Select Rank #3
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT 4 COLS: PACING FIDELITY & TRUST ENGINE SIDEBAR -->
+        <div class="lg:col-span-4 sticky top-28 flex flex-col gap-6">
+
+          <!-- CARD 1: PACING FIDELITY BREAKDOWN -->
+          <div class="bg-surface-container-lowest rounded-3xl p-6 border border-surface-container-high shadow-sm">
+            <div class="flex items-center justify-between pb-4 border-b border-surface-container">
+              <div>
+                <span class="font-label-caps text-[10px] uppercase tracking-wider text-secondary font-bold">Physics &amp; Feasibility</span>
+                <h3 class="font-headline-sm text-lg font-bold text-on-surface">Pacing Fidelity</h3>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">speed</span>
+                <span>Optimal Cadence</span>
+              </span>
+            </div>
+
+            <!-- Fidelity Metrics -->
+            <div class="py-4 space-y-4">
+              
+              <!-- Backtrack Ratio -->
+              <div>
+                <div class="flex items-center justify-between text-xs mb-1">
+                  <span class="font-medium text-on-surface-variant flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px] text-emerald-600">route</span>
+                    Backtrack Ratio
+                  </span>
+                  <span class="font-bold text-emerald-700">0.00% (Linear Vector)</span>
+                </div>
+                <div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+                  <div class="bg-emerald-600 h-full rounded-full" style="width: 100%;"></div>
+                </div>
+                <span class="text-[10px] text-on-surface-variant block mt-1">Zero U-turns or reverse highway miles.</span>
+              </div>
+
+              <!-- Protected Rest Window -->
+              <div>
+                <div class="flex items-center justify-between text-xs mb-1">
+                  <span class="font-medium text-on-surface-variant flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px] text-secondary">hotel</span>
+                    Daily Rest Window
+                  </span>
+                  <span class="font-bold text-primary font-tabular-nums">3.8 hrs / day</span>
+                </div>
+                <div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+                  <div class="bg-secondary h-full rounded-full" style="width: 48%;"></div>
+                </div>
+                <span class="text-[10px] text-on-surface-variant block mt-1">Guarantees shaded 1:00 PM – 3:45 PM courtyard rest.</span>
+              </div>
+
+              <!-- Physical Strain Quotient -->
+              <div class="pt-2 border-t border-surface-container">
+                <div class="flex items-center justify-between text-xs mb-1">
+                  <span class="font-medium text-on-surface-variant flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[16px] text-primary">fitness_center</span>
+                    Daily Physical Strain
+                  </span>
+                  <span class="font-bold text-emerald-700">Low (Optimal)</span>
+                </div>
+                <span class="text-[10px] text-on-surface-variant block mt-0.5">Average 4,800 steps/day • Air-conditioned chauffeur transfers.</span>
+              </div>
+
+            </div>
+
+            <!-- Sanctuary Availability Status -->
+            <div class="mt-2 p-3.5 rounded-2xl bg-surface-container-low border border-surface-container-high flex items-center gap-3">
+              <span class="w-8 h-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-[18px]">verified_user</span>
+              </span>
+              <div class="text-xs">
+                <span class="font-bold text-on-surface block">Pre-Allocated Inventory</span>
+                <span class="text-[11px] text-on-surface-variant">Suites held for 45 minutes during builder setup.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: THE TREVOO TRUST CHARTER -->
+          <div class="bg-surface-container-lowest rounded-3xl p-6 border border-surface-container-high shadow-sm">
+            <span class="font-label-caps text-[10px] uppercase tracking-wider text-secondary font-bold block mb-1">Authenticity Charter</span>
+            <h4 class="font-headline-sm text-base font-bold text-primary">Why Trevoo Is Different</h4>
+
+            <div class="mt-4 space-y-3 text-xs">
+              <div class="flex items-start gap-2.5">
+                <span class="material-symbols-outlined text-emerald-600 text-[18px] shrink-0 mt-0.5">verified</span>
+                <div>
+                  <strong class="font-bold text-on-surface block">Zero Generic Hotel Chains</strong>
+                  <span class="text-[11px] text-on-surface-variant">Only authentic havelis and palace wings vetted by heritage conservators.</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-2.5">
+                <span class="material-symbols-outlined text-emerald-600 text-[18px] shrink-0 mt-0.5">navigation</span>
+                <div>
+                  <strong class="font-bold text-on-surface block">Spatial PostGIS Routing</strong>
+                  <span class="text-[11px] text-on-surface-variant">Stops follow natural sun vectors with zero retraced ground.</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-2.5">
+                <span class="material-symbols-outlined text-emerald-600 text-[18px] shrink-0 mt-0.5">badge</span>
+                <div>
+                  <strong class="font-bold text-on-surface block">Govt. Certified Docents</strong>
+                  <span class="text-[11px] text-on-surface-variant">Resident historians with direct access to private palace archives.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FLOATING PERSISTENT FOOTER / SUMMARY BAR -->
+  <div class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-t border-surface-container-high py-4 px-6 lg:px-12 shadow-[0_-4px_24px_rgba(0,0,0,0.06)]">
+    <div class="max-w-[1380px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      
+      <!-- Selection Summary Readout -->
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <div class="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center shrink-0 shadow-sm">
+          <span class="material-symbols-outlined text-[24px]">flag</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="bottom-match-badge" class="font-label-caps text-xs uppercase font-bold text-emerald-700">Rank #1 Selected (98% Match)</span>
+            <span class="text-on-surface-variant/40">•</span>
+            <span id="bottom-pacing-badge" class="font-label-sm text-xs font-semibold text-secondary">Balanced Cadence</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <h4 id="bottom-archetype-name" class="font-headline-sm text-base sm:text-lg font-bold text-on-surface">
+              Udaipur &amp; The Aravalli Escarpment
+            </h4>
+            <span id="bottom-context-summary" class="font-body-sm text-xs font-semibold text-on-surface-variant">
+              (5 Days • 4 Nights • Couple)
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+        <a href="S4_Preferences.html" class="px-5 py-3.5 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-sm font-semibold transition-colors">
+          Back to Constraints
+        </a>
+        <a id="btn-open-builder-footer" href="S7_Builder.html" class="group inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-full bg-primary hover:bg-primary-container text-white font-headline-sm text-sm font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+          <span>Plan This Trip (Open Builder)</span>
+          <span class="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: ARCHETYPE SWITCHING & STATE MANAGEMENT -->
+  <script>
+    // Archetype Database
+    const archetypesData = {
+      rank1: {
+        id: "archetype-udaipur-water-guilds",
+        rank: 1,
+        matchPercentage: 98,
+        matchBadge: "98% Cadence Match • Match Rank #1",
+        title: "Udaipur & The Aravalli Escarpment",
+        subtitle: "A contemplative journey through Mewari lake havelis, 16th-century stepwells, private miniature painting ateliers, and tranquil palace boat floats.",
+        category: "Mewari Lake Havelis & Artisan Guilds",
+        heroImg: "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1400&q=85",
+        inventory: "Only 2 Haveli Suites Left",
+        seasonality: "4.9",
+        crowd: "Low",
+        crowdSub: "(Pre-Diwali)",
+        dailyCost: "₹28,500",
+        transitTime: "3.5h",
+        exclusives: [
+          {
+            icon: "kayaking",
+            iconColor: "text-primary",
+            bgColor: "bg-primary/10",
+            title: "Dawn Lake Pichola Wooden Boat Float",
+            desc: "Silent private oars before public motorboats begin. Reflective light onto City Palace outer ramparts."
+          },
+          {
+            icon: "vpn_key",
+            iconColor: "text-secondary",
+            bgColor: "bg-secondary/10",
+            title: "Closed-Door Crystal Gallery Curatorial Tour",
+            desc: "Private after-hours viewing escorted by royal historian with Mewari archive access."
+          },
+          {
+            icon: "brush",
+            iconColor: "text-tertiary",
+            bgColor: "bg-amber-500/10",
+            title: "17th-Century Vegetable Dye Atelier",
+            desc: "Master artisan-guided block printing with hand-ground indigo and turmeric mordants."
+          },
+          {
+            icon: "coffee",
+            iconColor: "text-sky-blue",
+            bgColor: "bg-sky-blue/10",
+            title: "Subterranean Stepwell Acoustic Tea",
+            desc: "Chai and local almond kachori served 4 levels below surface inside private Bundi stepwell."
+          }
+        ],
+        calculus: {
+          pacing: "Your selected <em>Balanced Cadence</em> is strictly preserved. Day capacity averages 6.2 hours out of an 8.0-hour ceiling, leaving 3.8 hours of uninterrupted afternoon shaded reprieves.",
+          weather: "Zero outdoor architectural halts scheduled between 1:00 PM and 3:45 PM. Midday peak heat (31°C) is spent inside courtyard haveli pools or sheltered museum vaults.",
+          dietary: "100% Pure Vegetarian dining verified across both Ambrai Haveli and Rawla Narlai kitchens with zero cross-contamination."
+        }
+      },
+      rank2: {
+        id: "archetype-jodhpur-thar-stargazing",
+        rank: 2,
+        matchPercentage: 92,
+        matchBadge: "92% Cadence Match • Match Rank #2",
+        title: "The Blue City & Thar Dunes",
+        subtitle: "Desert Stargazing & Sandstone Monoliths. Dawn walk on Mehrangarh ramparts, private desert camp under the Milky Way, Thar folk music.",
+        category: "Marwar Desert Forts & Celestial Stargazing",
+        heroImg: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1400&q=85",
+        inventory: "3 Luxury Tents Left",
+        seasonality: "4.7",
+        crowd: "Med-Low",
+        crowdSub: "(Desert Quiet)",
+        dailyCost: "₹26,000",
+        transitTime: "4.2h",
+        exclusives: [
+          {
+            icon: "wb_twilight",
+            iconColor: "text-tertiary",
+            bgColor: "bg-amber-500/10",
+            title: "Private Mehrangarh Sunrise Ramparts Access",
+            desc: "Watch morning sunlight hit the cobalt houses with the royal docent before museum gates open."
+          },
+          {
+            icon: "telescope",
+            iconColor: "text-primary",
+            bgColor: "bg-primary/10",
+            title: "Deep Sky Desert Astronomy Session",
+            desc: "Computerized telescope session under zero-light-pollution Thar desert skies."
+          },
+          {
+            icon: "music_note",
+            iconColor: "text-secondary",
+            bgColor: "bg-secondary/10",
+            title: "Private Manganiyar Bard Campfire Recital",
+            desc: "Ancient desert vocal ballads performed over hot woodfire kebabs and royal thali."
+          },
+          {
+            icon: "water_drop",
+            iconColor: "text-sky-blue",
+            bgColor: "bg-sky-blue/10",
+            title: "Toorji Ka Jhalra Stepwell Sunset Aperitif",
+            desc: "Private corner table perched above the geometric inverted pyramids of Jodhpur's oldest stepwell."
+          }
+        ],
+        calculus: {
+          pacing: "Pacing is slightly more adventurous with 4.2h highway transfers, but 35% rest buffer provides deep evening desert tranquility.",
+          weather: "Desert nights are pleasantly crisp (18°C), making outdoor night stargazing comfortable.",
+          dietary: "Authentic Marwari vegetarian cuisine with Sangri beans and bajra rotis prepared by private campfire chefs."
+        }
+      },
+      rank3: {
+        id: "archetype-jaipur-shekhawati-frescoes",
+        rank: 3,
+        matchPercentage: 89,
+        matchBadge: "89% Cadence Match • Match Rank #3",
+        title: "Jaipur & Shekhawati Frescoes",
+        subtitle: "Living Architecture & Painted Havelis. Dawn at Panna Meena Stepwell, closed-door fresco corridors, private gemstone atelier in the Pink City.",
+        category: "Kachhwaha Architecture & Fresco Corridors",
+        heroImg: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1400&q=85",
+        inventory: "4 Heritage Rooms Available",
+        seasonality: "4.8",
+        crowd: "Moderate",
+        crowdSub: "(City Pulse)",
+        dailyCost: "₹31,000",
+        transitTime: "4.0h",
+        exclusives: [
+          {
+            icon: "stairs",
+            iconColor: "text-sky-blue",
+            bgColor: "bg-sky-blue/10",
+            title: "Panna Meena Stepwell Golden Hour Solitude",
+            desc: "Photographic permit arranged at 6:45 AM before city footfall arrives."
+          },
+          {
+            icon: "palette",
+            iconColor: "text-primary",
+            bgColor: "bg-primary/10",
+            title: "Shekhawati Fresco Conservator Walk",
+            desc: "Private keys to abandoned 18th-century merchant havelis with painted mythological walls."
+          },
+          {
+            icon: "diamond",
+            iconColor: "text-tertiary",
+            bgColor: "bg-amber-500/10",
+            title: "Gem Palace Closed-Door Vault Inspection",
+            desc: "Behind-the-scenes look at imperial Mughal emerald cutting and traditional meenakari enamel."
+          },
+          {
+            icon: "dinner_dining",
+            iconColor: "text-secondary",
+            bgColor: "bg-secondary/10",
+            title: "Samode Haveli Candlelit Mirror Courtyard Dining",
+            desc: "Royal thali served under chandeliers in an intimate 18th-century Sheesh Mahal hall."
+          }
+        ],
+        calculus: {
+          pacing: "Balanced cultural immersion with 38% rest buffer. Includes 4 havelis across Jaipur and Shekhawati.",
+          weather: "Mild autumn breeze across Shekhawati plains. Midday heat avoided through air-conditioned haveli visits.",
+          dietary: "Royal Rajasthani sattvic curations and organic garden herbs at Samode Haveli."
+        }
+      }
+    };
+
+    let activeArchetypeKey = "rank1";
+
+    // DOM References
+    const heroBgEl = document.getElementById('archetype-hero-bg');
+    const matchBadgeEl = document.getElementById('archetype-match-badge');
+    const inventoryBadgeEl = document.getElementById('archetype-inventory-badge');
+    const categoryEl = document.getElementById('archetype-category');
+    const titleEl = document.getElementById('archetype-title');
+    const subtitleEl = document.getElementById('archetype-subtitle');
+    const metricSeasonalityEl = document.getElementById('metric-seasonality');
+    const metricCrowdEl = document.getElementById('metric-crowd');
+    const metricDailyCostEl = document.getElementById('metric-daily-cost');
+    const metricTransitTimeEl = document.getElementById('metric-transit-time');
+    const exclusivesGridEl = document.getElementById('exclusives-grid');
+    const calculusPacingEl = document.getElementById('calculus-pacing');
+    const calculusWeatherEl = document.getElementById('calculus-weather');
+    const calculusDietaryEl = document.getElementById('calculus-dietary');
+    const bottomMatchBadgeEl = document.getElementById('bottom-match-badge');
+    const bottomArchetypeNameEl = document.getElementById('bottom-archetype-name');
+    const bottomContextSummaryEl = document.getElementById('bottom-context-summary');
+    const activeSessionSummaryEl = document.getElementById('active-session-summary');
+
+    // Load Session Storage Context
+    function loadSessionContext() {
+      try {
+        const cal = sessionStorage.getItem('trevoo_calendar_selection');
+        const pref = sessionStorage.getItem('trevoo_preferences');
+        let destination = "Udaipur & The Aravalli Escarpment";
+        let dates = "Oct 08 – Oct 12, 2026";
+        let party = "Couple";
+
+        if (cal) {
+          const parsedCal = JSON.parse(cal);
+          if (parsedCal.corridor) destination = parsedCal.corridor.split('&')[0].trim();
+        }
+        if (pref) {
+          const parsedPref = JSON.parse(pref);
+          if (parsedPref.destination) destination = parsedPref.destination.split('&')[0].trim();
+          if (parsedPref.party) {
+            if (parsedPref.party.type === 'SOLO') party = 'Solo';
+            else if (parsedPref.party.type === 'FAMILY_WITH_KIDS') party = 'Family';
+            else if (parsedPref.party.type === 'FRIENDS_GROUP') party = 'Friends';
+          }
+        }
+
+        activeSessionSummaryEl.textContent = `${destination} • ${dates} (${party})`;
+        bottomContextSummaryEl.textContent = `(5 Days • 4 Nights • ${party})`;
+      } catch(e) {
+        console.warn('Session data read error:', e);
+      }
+    }
+
+    // Render Archetype
+    function renderArchetype(key) {
+      const data = archetypesData[key];
+      if (!data) return;
+
+      activeArchetypeKey = key;
+
+      // Update Top Hero
+      heroBgEl.style.backgroundImage = `url('${data.heroImg}')`;
+      matchBadgeEl.textContent = data.matchBadge;
+      inventoryBadgeEl.textContent = data.inventory;
+      categoryEl.textContent = data.category;
+      titleEl.textContent = data.title;
+      subtitleEl.textContent = data.subtitle;
+
+      // Update Metrics
+      metricSeasonalityEl.textContent = data.seasonality;
+      metricCrowdEl.textContent = data.crowd;
+      metricDailyCostEl.textContent = data.dailyCost;
+      metricTransitTimeEl.textContent = data.transitTime;
+
+      // Update Exclusives
+      exclusivesGridEl.innerHTML = '';
+      data.exclusives.forEach(item => {
+        const badge = document.createElement('div');
+        badge.className = 'exclusive-badge p-3.5 rounded-2xl bg-surface-container-low border border-surface-container-high flex items-start gap-3';
+        badge.innerHTML = `
+          <span class="w-9 h-9 rounded-xl ${item.bgColor} ${item.iconColor} flex items-center justify-center shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-[18px]">${item.icon}</span>
+          </span>
+          <div>
+            <strong class="font-headline-sm text-sm font-bold text-on-surface block">${item.title}</strong>
+            <span class="font-body-sm text-xs text-on-surface-variant mt-0.5 block leading-relaxed">${item.desc}</span>
+          </div>
+        `;
+        exclusivesGridEl.appendChild(badge);
+      });
+
+      // Update Calculus
+      calculusPacingEl.innerHTML = `<strong>Pacing Alignment:</strong> ${data.calculus.pacing}`;
+      calculusWeatherEl.innerHTML = `<strong>Thermal Invariant:</strong> ${data.calculus.weather}`;
+      calculusDietaryEl.innerHTML = `<strong>Dietary Protection:</strong> ${data.calculus.dietary}`;
+
+      // Update Bottom Bar
+      bottomMatchBadgeEl.textContent = `Rank #${data.rank} Selected (${data.matchPercentage}% Match)`;
+      bottomArchetypeNameEl.textContent = data.title;
+
+      // Update Tab Styles
+      document.querySelectorAll('.archetype-tab').forEach(tab => {
+        if (tab.dataset.archetype === key) {
+          tab.classList.add('bg-primary', 'text-white', 'shadow-sm');
+          tab.classList.remove('text-on-surface-variant', 'hover:bg-white/60');
+        } else {
+          tab.classList.remove('bg-primary', 'text-white', 'shadow-sm');
+          tab.classList.add('text-on-surface-variant', 'hover:bg-white/60');
+        }
+      });
+
+      // Save Selection to Session Storage
+      saveSelectedArchetypeToSession();
+    }
+
+    // Tab Listeners
+    document.querySelectorAll('.archetype-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        renderArchetype(tab.dataset.archetype);
+      });
+    });
+
+    // Alternative Archetype Swap & Select Buttons
+    document.querySelectorAll('.btn-swap-archetype').forEach(btn => {
+      btn.addEventListener('click', () => {
+        renderArchetype(btn.dataset.swap);
+        window.scrollTo({ top: 180, behavior: 'smooth' });
+      });
+    });
+
+    document.querySelectorAll('.btn-select-archetype').forEach(btn => {
+      btn.addEventListener('click', () => {
+        renderArchetype(btn.dataset.select);
+        window.scrollTo({ top: 180, behavior: 'smooth' });
+      });
+    });
+
+    // Save Selection to Session Storage
+    function saveSelectedArchetypeToSession() {
+      const active = archetypesData[activeArchetypeKey];
+      const payload = {
+        archetypeId: active.id,
+        title: active.title,
+        rank: active.rank,
+        matchPercentage: active.matchPercentage,
+        dailyCost: active.dailyCost,
+        transitTime: active.transitTime,
+        category: active.category
+      };
+      sessionStorage.setItem('trevoo_selected_archetype', JSON.stringify(payload));
+    }
+
+    // Forward Navigation Buttons
+    const openBuilder = (e) => {
+      e.preventDefault();
+      saveSelectedArchetypeToSession();
+      window.location.href = 'S7_Builder.html';
+    };
+
+    document.getElementById('btn-open-builder-primary').addEventListener('click', openBuilder);
+    document.getElementById('btn-open-builder-footer').addEventListener('click', openBuilder);
+
+    // Initialize
+    loadSessionContext();
+    renderArchetype('rank1');
+  </script>
+</body>
+</html>
+

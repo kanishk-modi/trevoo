@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trevoo — Constrained Itinerary Builder (Screen 07)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .day-tab.active {
+      border-color: #01265B !important;
+      background-color: #FFFFFF !important;
+      box-shadow: 0 4px 14px rgba(1, 38, 91, 0.08);
+    }
+    .stop-card {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .transit-ribbon {
+      position: relative;
+    }
+    .transit-ribbon::before {
+      content: '';
+      position: absolute;
+      top: -14px;
+      bottom: -14px;
+      left: 28px;
+      width: 2px;
+      background: repeating-linear-gradient(to bottom, #096D85 0, #096D85 4px, transparent 4px, transparent 8px);
+      z-index: 0;
+    }
+  </style>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "deep-navy": "#01265B",
+            "ocean-teal": "#096D85",
+            "sky-blue": "#19879E",
+            "sunset-orange": "#F59346",
+            "slate-gray": "#848485",
+            primary: "#01265B",
+            "primary-container": "#083C6B",
+            "primary-fixed": "#D8E8F8",
+            "primary-fixed-dim": "#84A8CE",
+            "on-primary": "#ffffff",
+            secondary: "#096D85",
+            "secondary-container": "#E1F3F7",
+            "on-secondary-container": "#053E4C",
+            tertiary: "#F59346",
+            "tertiary-container": "#572400",
+            "tertiary-fixed": "#FEF4EB",
+            "on-tertiary-fixed": "#D86E1B",
+            surface: "#F7F9FB",
+            "surface-bright": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#EEF2F6",
+            "surface-container": "#E5EBF0",
+            "surface-container-high": "#DDE4EA",
+            "surface-container-highest": "#D4DCE2",
+            "on-surface": "#0F172A",
+            "on-surface-variant": "#475569",
+            outline: "#848485",
+            "outline-variant": "#CBD5E1",
+            obsidian: "#0A131F"
+          },
+          fontFamily: {
+            "display-hero": ["Epilogue", "sans-serif"],
+            "headline-xl": ["Epilogue", "sans-serif"],
+            "headline-lg": ["Epilogue", "sans-serif"],
+            "headline-md": ["Epilogue", "sans-serif"],
+            "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "body-xl": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-caps": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "tabular-nums": ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-primary selection:text-white">
+
+  <!-- TOP NAVIGATION HEADER -->
+  <header id="main-header" class="fixed top-0 left-0 right-0 w-full z-50 bg-[#101413]/95 backdrop-blur-md border-b border-white/10 text-white shadow-sm transition-all duration-300">
+    <div class="h-20 max-w-[1380px] mx-auto px-6 lg:px-12 flex items-center justify-between gap-6">
+      
+      <!-- Logo Anchor (Singular Monochrome Logo at 2x Relative Area) -->
+      <a href="index.html" class="inline-flex items-center group py-1 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded-lg transition-transform duration-200 hover:scale-[1.03]" aria-label="Trevoo Home">
+        <img alt="Trevoo" class="h-14 md:h-16 w-auto object-contain drop-shadow-[0_2px_10px_rgba(255,255,255,0.4)]" src="assets/trevoo-color-logo.png"/>
+      </a>
+
+      <!-- Primary Nav Menu -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors py-1" data-path="explore" href="S2_Explore.html">Explore</a>
+        <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors py-1" data-path="destinations" href="Destinations.html">Destinations</a>
+        <a aria-current="page" class="transition-colors py-1 text-white font-medium relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[1.5px] after:bg-white" data-path="smart-planner" href="S3_DateSelection.html">Smart Planner</a>
+        <a class="font-label-md text-label-md text-white/70 hover:text-white transition-colors py-1" data-path="journal" href="Journal.html">Journal</a>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="flex items-center gap-4">
+        <div class="hidden xl:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-sm">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="font-label-sm text-label-sm tracking-wide text-white/90 uppercase">India • Autumn 2026</span>
+        </div>
+        <a class="inline-flex items-center justify-center px-5 py-2 rounded-full border border-white/30 hover:border-white/70 bg-white/10 hover:bg-white/20 text-white font-label-md text-label-md transition-all backdrop-blur-sm shadow-sm" data-path="sign-in" href="#">
+          Sign In
+        </a>
+        <a class="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors" data-path="profile" href="#">
+          <span class="material-symbols-outlined text-white text-[18px]">person</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN BUILDER WORKSPACE -->
+  <main class="w-full pt-28 pb-36 flex-1">
+    <div class="max-w-[1380px] mx-auto px-6 lg:px-12">
+
+      <!-- STAGE PROGRESSION BREADCRUMB STRIP -->
+      <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-surface-container-high">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-full bg-primary-container text-on-primary font-headline-sm text-sm font-semibold flex items-center justify-center shadow-sm">04</span>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-label-caps text-[11px] uppercase tracking-wider text-secondary font-semibold">Stage 04 of 04</span>
+              <span class="text-on-surface-variant/40">•</span>
+              <span class="font-label-caps text-[11px] uppercase tracking-wider text-on-surface-variant font-medium">Constrained Itinerary Builder</span>
+            </div>
+            <h1 class="font-headline-lg text-2xl md:text-3xl font-bold text-on-surface tracking-tight">Fine-Tune Your Daily Choreography</h1>
+          </div>
+        </div>
+
+        <!-- Active Context Capsule -->
+        <div class="flex items-center gap-3 bg-surface-container-low px-4 py-2 rounded-2xl border border-outline-variant/40 shadow-xs">
+          <div class="w-8 h-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[18px]">schedule</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2">
+              <span id="active-archetype-badge" class="font-label-caps text-[10px] uppercase font-bold text-primary tracking-wider">Udaipur &amp; Aravalli Escarpment</span>
+              <span class="text-on-surface-variant/40">•</span>
+              <span id="active-dates-badge" class="font-label-sm text-[11px] font-semibold text-secondary">Oct 08 – Oct 12, 2026</span>
+            </div>
+            <span class="font-body-sm text-xs font-semibold text-on-surface-variant">Rank #1 Flagship • Balanced Cadence</span>
+          </div>
+          <a href="S6_Results.html" class="ml-2 text-xs text-primary hover:text-secondary font-semibold underline underline-offset-2 flex items-center gap-0.5">
+            <span>Archetypes</span>
+            <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- DAY SELECTOR TABS STRIP -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between pb-3">
+          <span class="font-label-caps text-xs uppercase tracking-wider text-on-surface-variant font-bold">5-Day Cultural Route Progression</span>
+          <button type="button" id="btn-reset-ai" class="text-xs text-secondary hover:text-primary font-semibold flex items-center gap-1 transition-colors">
+            <span class="material-symbols-outlined text-[16px]">restart_alt</span>
+            <span>Reset to AI Optimal Order</span>
+          </button>
+        </div>
+
+        <!-- Day Tabs Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3" id="day-tabs-container">
+          
+          <!-- Day 1 -->
+          <button type="button" data-day="1" class="day-tab text-left p-3.5 rounded-2xl border border-surface-container-high bg-surface-container-low/60 hover:bg-white transition-all flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="font-label-caps text-[10px] uppercase font-bold text-on-surface-variant">Day 01 • Oct 08</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            </div>
+            <h4 class="font-headline-sm text-xs font-bold text-on-surface mt-1.5 truncate">Arrival &amp; Pichola Waterways</h4>
+            <div class="mt-2 pt-2 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant">
+              <span>5.0h / 8.0h</span>
+              <span class="text-emerald-700 font-semibold">Gentle</span>
+            </div>
+          </button>
+
+          <!-- Day 2 (Active Default) -->
+          <button type="button" data-day="2" class="day-tab active text-left p-3.5 rounded-2xl border-2 border-primary bg-white shadow-sm transition-all flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="font-label-caps text-[10px] uppercase font-bold text-primary">Day 02 • Oct 09</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            </div>
+            <h4 class="font-headline-sm text-xs font-bold text-on-surface mt-1.5 truncate">Sun Gate &amp; Royal Stepwells</h4>
+            <div class="mt-2 pt-2 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant">
+              <span id="tab2-hours">6.5h / 8.0h</span>
+              <span class="text-secondary font-bold">Optimal</span>
+            </div>
+          </button>
+
+          <!-- Day 3 -->
+          <button type="button" data-day="3" class="day-tab text-left p-3.5 rounded-2xl border border-surface-container-high bg-surface-container-low/60 hover:bg-white transition-all flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="font-label-caps text-[10px] uppercase font-bold text-on-surface-variant">Day 03 • Oct 10</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            </div>
+            <h4 class="font-headline-sm text-xs font-bold text-on-surface mt-1.5 truncate">Aravalli Ridge &amp; Jain Temples</h4>
+            <div class="mt-2 pt-2 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant">
+              <span>6.0h / 8.0h</span>
+              <span class="text-secondary font-semibold">Optimal</span>
+            </div>
+          </button>
+
+          <!-- Day 4 -->
+          <button type="button" data-day="4" class="day-tab text-left p-3.5 rounded-2xl border border-surface-container-high bg-surface-container-low/60 hover:bg-white transition-all flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="font-label-caps text-[10px] uppercase font-bold text-on-surface-variant">Day 04 • Oct 11</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            </div>
+            <h4 class="font-headline-sm text-xs font-bold text-on-surface mt-1.5 truncate">Living Craft Guilds &amp; Sunset</h4>
+            <div class="mt-2 pt-2 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant">
+              <span>5.5h / 8.0h</span>
+              <span class="text-secondary font-semibold">Optimal</span>
+            </div>
+          </button>
+
+          <!-- Day 5 -->
+          <button type="button" data-day="5" class="day-tab text-left p-3.5 rounded-2xl border border-surface-container-high bg-surface-container-low/60 hover:bg-white transition-all flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <span class="font-label-caps text-[10px] uppercase font-bold text-on-surface-variant">Day 05 • Oct 12</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            </div>
+            <h4 class="font-headline-sm text-xs font-bold text-on-surface mt-1.5 truncate">Dawn Courtyard &amp; Departure</h4>
+            <div class="mt-2 pt-2 border-t border-surface-container flex items-center justify-between text-[11px] text-on-surface-variant">
+              <span>4.0h / 8.0h</span>
+              <span class="text-emerald-700 font-semibold">Leisure</span>
+            </div>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- MAIN 12-COLUMN BUILDER GRID -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+        <!-- LEFT 8 COLS: TIMELINE CAPACITY BAR & CHRONOLOGICAL STOPS -->
+        <div class="lg:col-span-8 flex flex-col gap-6">
+
+          <!-- DAY CAPACITY & FEASIBILITY ENGINE PANEL -->
+          <div class="bg-surface-container-lowest rounded-3xl p-6 border border-surface-container-high shadow-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span id="active-day-heading" class="font-headline-md text-lg font-bold text-on-surface">Day 02 Schedule: Sun Gate &amp; Royal Stepwells</span>
+                  <span id="capacity-badge" class="px-2.5 py-0.5 rounded-full bg-secondary-container text-secondary text-xs font-bold">Optimal Pace</span>
+                </div>
+                <p class="font-body-sm text-xs text-on-surface-variant mt-0.5">
+                  Calculates physical transit overhead, docent duration, and locks the midday shaded thermal reprieve.
+                </p>
+              </div>
+
+              <!-- Time Allocation Counters -->
+              <div class="flex items-baseline gap-1.5 bg-surface-container-low px-4 py-2 rounded-2xl border border-surface-container-high shrink-0">
+                <span id="allocated-hours-display" class="font-headline-md text-xl font-bold text-primary">6.5h</span>
+                <span class="text-xs text-on-surface-variant font-medium">/ 8.0h Max Feasible</span>
+              </div>
+            </div>
+
+            <!-- Capacity Progress Bar -->
+            <div class="space-y-1.5">
+              <div class="w-full bg-surface-container rounded-full h-3 overflow-hidden p-0.5 flex gap-0.5">
+                <div id="capacity-bar-active" class="bg-primary h-full rounded-full transition-all duration-300" style="width: 81%;"></div>
+                <div id="capacity-bar-buffer" class="bg-emerald-400 h-full rounded-full transition-all duration-300" style="width: 19%;"></div>
+              </div>
+
+              <!-- Bar Sub-Labels -->
+              <div class="flex items-center justify-between text-[11px] text-on-surface-variant font-medium">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-primary"></span>
+                  <span id="active-time-label">Allocated Activity: 6.5 hrs</span>
+                </span>
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  <span id="buffer-time-label">Rest Buffer: 1.5 hrs remaining</span>
+                </span>
+                <span class="font-bold text-primary">8.0h Maximum Safe Ceiling</span>
+              </div>
+            </div>
+
+            <!-- Overburdened Alert Banner (Hidden by default, shown if > 8.5h) -->
+            <div id="capacity-warning-banner" class="mt-4 p-3.5 rounded-2xl bg-amber-50 border border-amber-300 text-amber-950 text-xs hidden">
+              <div class="flex items-start gap-2.5">
+                <span class="material-symbols-outlined text-tertiary text-[20px] shrink-0 mt-0.5">warning</span>
+                <div>
+                  <strong class="font-bold block text-sm">Schedule Overburdened: Transit Risk High</strong>
+                  <span class="text-[11px] leading-relaxed block mt-0.5">
+                    Total day duration exceeds 8.5 hours. Afternoon shaded thermal reprieve is violated, risking physical exhaustion. Consider removing 1 stop or reducing site duration.
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Invariants Quick Ribbon -->
+            <div class="mt-4 pt-3 border-t border-surface-container flex flex-wrap items-center justify-between gap-3 text-xs text-on-surface-variant">
+              <div class="flex items-center gap-1.5 text-emerald-700 font-semibold">
+                <span class="material-symbols-outlined text-[16px]">verified</span>
+                <span>0.00% Backtrack Vector Guaranteed</span>
+              </div>
+              <div class="flex items-center gap-1.5 text-primary font-semibold">
+                <span class="material-symbols-outlined text-[16px] text-secondary">wb_sunny</span>
+                <span>1:00 PM – 3:45 PM Protected Thermal Reprieve Locked</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHRONOLOGICAL STOPS LIST WITH TRANSIT RIBBONS -->
+          <div class="space-y-4" id="stops-timeline-container">
+            <!-- Dynamic Content Injected via JS -->
+          </div>
+
+        </div>
+
+        <!-- RIGHT 4 COLS: NEARBY PACING-AWARE ADDITIONS & REALITY ENGINE -->
+        <div class="lg:col-span-4 sticky top-28 flex flex-col gap-6">
+
+          <!-- CARD 1: NEARBY PACING-AWARE ADDITIONS -->
+          <div class="bg-surface-container-lowest rounded-3xl p-6 border border-surface-container-high shadow-sm">
+            <div class="flex items-center justify-between pb-3 border-b border-surface-container mb-4">
+              <div>
+                <span class="font-label-caps text-[10px] uppercase tracking-wider text-secondary font-bold">Curated Library</span>
+                <h3 class="font-headline-sm text-base font-bold text-on-surface">Pacing-Aware Additions</h3>
+              </div>
+              <span id="library-capacity-pill" class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                1.5h Free Buffer
+              </span>
+            </div>
+
+            <p class="font-body-sm text-xs text-on-surface-variant mb-4">
+              Hidden gems and cultural sites located directly along today’s linear vector. Can be inserted if capacity permits.
+            </p>
+
+            <!-- Curated Additions List -->
+            <div class="space-y-3" id="curated-additions-list">
+              
+              <!-- Addition 1: Fits easily -->
+              <div class="p-3.5 rounded-2xl bg-surface-container-low border border-surface-container-high flex flex-col justify-between gap-2.5 hover:border-secondary transition-all">
+                <div class="flex items-start justify-between gap-2">
+                  <div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="px-2 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">+1.0 hr</span>
+                      <span class="text-[10px] font-semibold text-secondary">Fits Capacity</span>
+                    </div>
+                    <h5 class="font-headline-sm text-xs font-bold text-on-surface mt-1">Bagore Ki Haveli Folk Museum</h5>
+                    <p class="font-body-sm text-[11px] text-on-surface-variant mt-0.5">
+                      138-room 18th-century waterfront haveli with Mewar miniature murals and antique puppet workshops.
+                    </p>
+                  </div>
+                </div>
+                <button type="button" data-add-id="bagore-haveli" class="btn-add-stop w-full py-2 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs">
+                  <span class="material-symbols-outlined text-[15px]">add_circle</span>
+                  <span>Insert into Day Schedule</span>
+                </button>
+              </div>
+
+              <!-- Addition 2: Fits -->
+              <div class="p-3.5 rounded-2xl bg-surface-container-low border border-surface-container-high flex flex-col justify-between gap-2.5 hover:border-secondary transition-all">
+                <div class="flex items-start justify-between gap-2">
+                  <div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="px-2 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">+1.0 hr</span>
+                      <span class="text-[10px] font-semibold text-secondary">Fits Capacity</span>
+                    </div>
+                    <h5 class="font-headline-sm text-xs font-bold text-on-surface mt-1">Saheliyon Ki Bari Courtyard</h5>
+                    <p class="font-body-sm text-[11px] text-on-surface-variant mt-0.5">
+                      Historic royal maidens' garden with sculpted marble elephant fountains and lotus waterways.
+                    </p>
+                  </div>
+                </div>
+                <button type="button" data-add-id="saheliyon-bari" class="btn-add-stop w-full py-2 rounded-xl bg-primary hover:bg-primary-container text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs">
+                  <span class="material-symbols-outlined text-[15px]">add_circle</span>
+                  <span>Insert into Day Schedule</span>
+                </button>
+              </div>
+
+              <!-- Addition 3: Heavy stop (triggers warning) -->
+              <div class="p-3.5 rounded-2xl bg-surface-container-low border border-surface-container-high flex flex-col justify-between gap-2.5 hover:border-amber-400 transition-all">
+                <div class="flex items-start justify-between gap-2">
+                  <div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="px-2 py-0.2 rounded-full bg-orange-100 text-orange-900 text-[10px] font-bold">+2.5 hrs</span>
+                      <span class="text-[10px] font-semibold text-tertiary">Pushes Pace to 94%</span>
+                    </div>
+                    <h5 class="font-headline-sm text-xs font-bold text-on-surface mt-1">Monsoon Palace (Sajjangarh Ridge)</h5>
+                    <p class="font-body-sm text-[11px] text-on-surface-variant mt-0.5">
+                      High-altitude hilltop fortress with panoramic mountain views. Requires 45m uphill hairpin transit.
+                    </p>
+                  </div>
+                </div>
+                <button type="button" data-add-id="monsoon-palace" class="btn-add-stop w-full py-2 rounded-xl bg-surface-container-high hover:bg-primary hover:text-white text-on-surface text-xs font-bold flex items-center justify-center gap-1.5 transition-all">
+                  <span class="material-symbols-outlined text-[15px]">add_circle</span>
+                  <span>Insert (Pushes Capacity)</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- CARD 2: REALITY ENGINE VALIDATION CARD -->
+          <div class="bg-surface-container-lowest rounded-3xl p-6 border border-surface-container-high shadow-sm">
+            <div class="flex items-center justify-between pb-3 border-b border-surface-container mb-3">
+              <span class="font-label-caps text-[10px] uppercase tracking-wider text-secondary font-bold">Physics &amp; Feasibility</span>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Verified</span>
+            </div>
+
+            <h4 class="font-headline-sm text-sm font-bold text-primary mb-2">Zero Impossible Gaps Guarantee</h4>
+            <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed mb-4">
+              Every inter-stop transit segment has been checked against real-world NH58 traffic sensors and Udaipur heritage corridor restrictions.
+            </p>
+
+            <div class="space-y-2 text-xs text-on-surface-variant">
+              <div class="flex items-center justify-between">
+                <span>Maximum Highway Speed:</span>
+                <span class="font-semibold text-primary">55 km/h (Scenic Safety)</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Buffer Between Halts:</span>
+                <span class="font-semibold text-emerald-700">15–25 mins Verified</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>Linear Vector Invariant:</span>
+                <span class="font-semibold text-emerald-700">100% Directional</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FLOATING PERSISTENT FOOTER / SUMMARY BAR -->
+  <div class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-t border-surface-container-high py-4 px-6 lg:px-12 shadow-[0_-4px_24px_rgba(0,0,0,0.06)]">
+    <div class="max-w-[1380px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      
+      <!-- Selection Summary Readout -->
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <div class="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center shrink-0 shadow-sm">
+          <span class="material-symbols-outlined text-[24px]">tune</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="bottom-day-badge" class="font-label-caps text-xs uppercase font-bold text-secondary">Day 02 Active</span>
+            <span class="text-on-surface-variant/40">•</span>
+            <span id="bottom-status-badge" class="px-2 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Optimal Feasibility</span>
+            <span class="text-on-surface-variant/40">•</span>
+            <span class="font-label-sm text-xs font-semibold text-emerald-700">0.00% Backtrack</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <h4 id="bottom-itinerary-title" class="font-headline-sm text-base sm:text-lg font-bold text-on-surface">
+              Udaipur &amp; The Aravalli Escarpment
+            </h4>
+            <span id="bottom-hours-summary" class="font-body-sm text-xs font-semibold text-on-surface-variant">
+              (6.5h Allocated / 8.0h Max)
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+        <a href="S6_Results.html" class="px-5 py-3.5 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-sm font-semibold transition-colors">
+          Back to Archetypes
+        </a>
+        <button id="btn-lock-master-dossier" type="button" class="group inline-flex items-center justify-center gap-3 px-8 py-3.5 rounded-full bg-primary hover:bg-primary-container text-white font-headline-sm text-sm font-semibold transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5 cursor-pointer">
+          <span>Lock Itinerary &amp; View Dossier (Screen 08)</span>
+          <span class="material-symbols-outlined text-[18px] transition-transform duration-200 group-hover:translate-x-1">lock</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: TIMELINE & CAPACITY ENGINE -->
+  <script>
+    // Master Day Schedules Model
+    const itineraryDays = {
+      1: {
+        title: "Day 01: Arrival & Pichola Waterways",
+        date: "Oct 08, 2026",
+        allocatedHours: 5.0,
+        stops: [
+          {
+            id: "stop-d1-1",
+            name: "Private Airport Chauffeur Welcome",
+            category: "Private Transit Ribbon",
+            startTime: "02:00 PM",
+            endTime: "03:00 PM",
+            durationHours: 1.0,
+            desc: "Dedicated chauffeur greeting at Maharana Pratap Airport with cold towels and saffron water.",
+            tags: ["Private Chauffeur", "Luggage Handover"],
+            isLocked: true,
+            transitToNext: { mode: "PRIVATE_CHAUFFEUR", mins: 35, distKm: 24, traffic: "Scenic Highway", isGps: true }
+          },
+          {
+            id: "stop-d1-2",
+            name: "Ambrai Haveli Check-In & Courtyard Plunge Pool",
+            category: "Heritage Sanctuary",
+            startTime: "03:45 PM",
+            endTime: "05:30 PM",
+            durationHours: 1.75,
+            desc: "Welcome floral ceremony and afternoon relaxation in Lake Pichola courtyard suite.",
+            tags: ["Courtyard Suite", "Lake View"],
+            isLocked: false,
+            transitToNext: { mode: "FOOT_TRANSIT", mins: 10, distKm: 0.5, traffic: "Waterfront Ghat", isGps: true }
+          },
+          {
+            id: "stop-d1-3",
+            name: "Sunset Wooden Boat Float & Candlelit Terrace Dinner",
+            category: "Royal Exclusives",
+            startTime: "05:45 PM",
+            endTime: "08:00 PM",
+            durationHours: 2.25,
+            desc: "Private wooden boat float around Jagmandir Island followed by candlelight Mewari dinner on Ambrai terrace.",
+            tags: ["Private Boat", "Lake Sunset", "Pure Veg Dinner"],
+            isLocked: false,
+            transitToNext: null
+          }
+        ]
+      },
+      2: {
+        title: "Day 02: Sun Gate & Royal Stepwells",
+        date: "Oct 09, 2026",
+        allocatedHours: 6.5,
+        stops: [
+          {
+            id: "stop-d2-1",
+            name: "City Palace Complex & Crystal Gallery",
+            category: "Royal Heritage Citadel",
+            startTime: "09:00 AM",
+            endTime: "12:00 PM",
+            durationHours: 3.0,
+            desc: "Private docent tour of the 1559 Mewari royal quarters, private silver carriage collection, and closed-door crystal vault.",
+            tags: ["Docent Included", "AC Museum Vaults"],
+            isLocked: false,
+            transitToNext: { mode: "PRIVATE_CHAUFFEUR", mins: 25, distKm: 4.8, traffic: "Low Traffic • Heritage Corridor", isGps: true }
+          },
+          {
+            id: "stop-d2-2",
+            name: "Ambrai Haveli Shaded Courtyard Dining & Poolside Pause",
+            category: "Protected Thermal Reprieve",
+            startTime: "01:00 PM",
+            endTime: "03:00 PM",
+            durationHours: 2.0,
+            desc: "Traditional Mewari sattvic thali served in covered jharokhas, followed by poolside reading in shaded marble archways.",
+            tags: ["Protected Siesta Invariant", "Pure Veg Kitchen", "Zero Sun Exposure"],
+            isLocked: true,
+            transitToNext: { mode: "FOOT_TRANSIT", mins: 15, distKm: 0.8, traffic: "Shaded Alley • Cobblestone Ghats", isGps: true }
+          },
+          {
+            id: "stop-d2-3",
+            name: "Panna Meena Ka Kund / Chand Baori Stepwell Geometry",
+            category: "Subterranean Geometries",
+            startTime: "03:45 PM",
+            endTime: "05:15 PM",
+            durationHours: 1.5,
+            desc: "Descend into inverted triangular sandstone stairways. Cool subterranean micro-climate with acoustic resonance and docent history.",
+            tags: ["Subterranean Acoustics", "Golden Hour Lighting"],
+            isLocked: false,
+            transitToNext: { mode: "SOLAR_BOAT", mins: 30, distKm: 2.1, traffic: "Tranquil Waterway", isGps: true }
+          },
+          {
+            id: "stop-d2-4",
+            name: "Jagmandir Island Palace Sunset High Tea",
+            category: "Sunset Golden Hour",
+            startTime: "06:00 PM",
+            endTime: "07:30 PM",
+            durationHours: 1.5,
+            desc: "Evening tea and saffron sweets on the marble terrace as dusk paints the Aravalli peaks in amber and violet.",
+            tags: ["Sunset Sightline 17:48", "Private Dock"],
+            isLocked: false,
+            transitToNext: null
+          }
+        ]
+      },
+      3: {
+        title: "Day 03: Aravalli Ridge & Jain Temples",
+        date: "Oct 10, 2026",
+        allocatedHours: 6.0,
+        stops: [
+          {
+            id: "stop-d3-1",
+            name: "Chauffeur Scenic Transfer to Ranakpur Valley",
+            category: "Private Transit Ribbon",
+            startTime: "08:30 AM",
+            endTime: "10:30 AM",
+            durationHours: 2.0,
+            desc: "Morning private drive through shaded Aravalli escarpment hairpin passes.",
+            tags: ["Private Chauffeur Sedan", "Mountain Views"],
+            isLocked: false,
+            transitToNext: { mode: "PRIVATE_CHAUFFEUR", mins: 15, distKm: 3, traffic: "Quiet Forest Road", isGps: true }
+          },
+          {
+            id: "stop-d3-2",
+            name: "Ranakpur 1,444 Marble Pillar Temple Complex",
+            category: "Sacred Architecture",
+            startTime: "10:45 AM",
+            endTime: "01:00 PM",
+            durationHours: 2.25,
+            desc: "15th-century masterpiece with 1,444 uniquely carved pillars. No two pillars are alike.",
+            tags: ["Resident Jain Scholar", "Silent Meditation"],
+            isLocked: false,
+            transitToNext: { mode: "PRIVATE_CHAUFFEUR", mins: 20, distKm: 8, traffic: "Clear Road", isGps: true }
+          },
+          {
+            id: "stop-d3-3",
+            name: "Rawla Narlai Leopard Safari & Stepwell Dinner",
+            category: "Royal Exclusives",
+            startTime: "04:30 PM",
+            endTime: "07:30 PM",
+            durationHours: 3.0,
+            desc: "Evening 4x4 granite hill leopard tracker drive followed by candlelit stepwell dinner.",
+            tags: ["Private Wildlife Reserve", "100 Diyas"],
+            isLocked: false,
+            transitToNext: null
+          }
+        ]
+      },
+      4: {
+        title: "Day 04: Living Craft Guilds & Lake Sunset",
+        date: "Oct 11, 2026",
+        allocatedHours: 5.5,
+        stops: [
+          {
+            id: "stop-d4-1",
+            name: "17th-Century Vegetable Dye Atelier",
+            category: "Artisan Craft Guilds",
+            startTime: "09:30 AM",
+            endTime: "12:00 PM",
+            durationHours: 2.5,
+            desc: "Hands-on masterclass in ancestral natural block printing using natural indigo, pomegranate peel, and turmeric.",
+            tags: ["Master Artisan", "Take Home Silk Scarf"],
+            isLocked: false,
+            transitToNext: { mode: "PRIVATE_CHAUFFEUR", mins: 20, distKm: 5, traffic: "Low Traffic", isGps: true }
+          },
+          {
+            id: "stop-d4-2",
+            name: "Mewari Miniature Painter Studio",
+            category: "Artisan Atelier",
+            startTime: "03:45 PM",
+            endTime: "05:30 PM",
+            durationHours: 1.75,
+            desc: "Closed-door studio access to 7th-generation royal court painters using single-squirrel-hair brushes.",
+            tags: ["Private Studio", "Rare Pigments"],
+            isLocked: false,
+            transitToNext: null
+          }
+        ]
+      },
+      5: {
+        title: "Day 05: Dawn Courtyard & Departure",
+        date: "Oct 12, 2026",
+        allocatedHours: 4.0,
+        stops: [
+          {
+            id: "stop-d5-1",
+            name: "Silent Courtyard Breakfast & Haveli Monograph Presentation",
+            category: "Sanctuary Farewell",
+            startTime: "08:30 AM",
+            endTime: "10:30 AM",
+            durationHours: 2.0,
+            desc: "Leisurely breakfast on the lake terrace. Concierge hands over physical verified journey monograph.",
+            tags: ["Printed Monograph", "Luggage Service"],
+            isLocked: false,
+            transitToNext: { mode: "PRIVATE_CHAUFFEUR", mins: 35, distKm: 24, traffic: "Clear Highway", isGps: true }
+          },
+          {
+            id: "stop-d5-2",
+            name: "Chauffeur Airport Drop-off",
+            category: "Departure Ribbon",
+            startTime: "11:15 AM",
+            endTime: "12:00 PM",
+            durationHours: 0.75,
+            desc: "Private airport drop-off with assisted boarding clearance.",
+            tags: ["Airport Transit", "Luggage Concierge"],
+            isLocked: true,
+            transitToNext: null
+          }
+        ]
+      }
+    };
+
+    // Library additions catalog
+    const libraryAdditions = {
+      "bagore-haveli": {
+        name: "Bagore Ki Haveli Folk Museum",
+        category: "Living Heritage",
+        durationHours: 1.0,
+        startTime: "05:30 PM",
+        endTime: "06:30 PM",
+        desc: "138-room 18th-century waterfront haveli with Mewar miniature murals and antique puppet workshops.",
+        tags: ["Folk Guild", "Waterfront View"],
+        isLocked: false
+      },
+      "saheliyon-bari": {
+        name: "Saheliyon Ki Bari Courtyard",
+        category: "Royal Fountains",
+        durationHours: 1.0,
+        startTime: "04:00 PM",
+        endTime: "05:00 PM",
+        desc: "Historic royal maidens' garden with sculpted marble elephant fountains and lotus waterways.",
+        tags: ["Marble Fountains", "Shaded Canopies"],
+        isLocked: false
+      },
+      "monsoon-palace": {
+        name: "Monsoon Palace (Sajjangarh Ridge)",
+        category: "High-Altitude Fort",
+        durationHours: 2.5,
+        startTime: "04:30 PM",
+        endTime: "07:00 PM",
+        desc: "High-altitude hilltop fortress with panoramic mountain views. Requires 45m uphill hairpin transit.",
+        tags: ["Panoramic Vista", "Sunset Ridge"],
+        isLocked: false
+      }
+    };
+
+    let activeDayNumber = 2;
+
+    // DOM References
+    const headingEl = document.getElementById('active-day-heading');
+    const allocatedDisplayEl = document.getElementById('allocated-hours-display');
+    const activeLabelEl = document.getElementById('active-time-label');
+    const bufferLabelEl = document.getElementById('buffer-time-label');
+    const barActiveEl = document.getElementById('capacity-bar-active');
+    const barBufferEl = document.getElementById('capacity-bar-buffer');
+    const warningBannerEl = document.getElementById('capacity-warning-banner');
+    const capacityBadgeEl = document.getElementById('capacity-badge');
+    const timelineContainerEl = document.getElementById('stops-timeline-container');
+    const libraryPillEl = document.getElementById('library-capacity-pill');
+    const bottomHoursSummaryEl = document.getElementById('bottom-hours-summary');
+    const bottomDayBadgeEl = document.getElementById('bottom-day-badge');
+    const bottomStatusBadgeEl = document.getElementById('bottom-status-badge');
+
+    // 1. Load Session Context
+    function loadSessionContext() {
+      try {
+        const cal = sessionStorage.getItem('trevoo_calendar_selection');
+        const pref = sessionStorage.getItem('trevoo_preferences');
+        const arch = sessionStorage.getItem('trevoo_selected_archetype');
+
+        if (arch) {
+          const parsedArch = JSON.parse(arch);
+          if (parsedArch.title) {
+            document.getElementById('active-archetype-badge').textContent = parsedArch.title;
+            document.getElementById('bottom-itinerary-title').textContent = parsedArch.title;
+          }
+        }
+        if (cal) {
+          const parsedCal = JSON.parse(cal);
+          if (parsedCal.startDate && parsedCal.endDate) {
+            const startParts = parsedCal.startDate.split('-');
+            const endParts = parsedCal.endDate.split('-');
+            const str = `Oct ${startParts[2]} – Oct ${endParts[2]}, 2026`;
+            document.getElementById('active-dates-badge').textContent = str;
+          }
+        }
+      } catch (e) {
+        console.warn('Session data read error:', e);
+      }
+    }
+
+    // 2. Render Active Day Stops and Transit Ribbons
+    function renderDaySchedule(dayNum) {
+      activeDayNumber = dayNum;
+      const dayData = itineraryDays[dayNum];
+      if (!dayData) return;
+
+      headingEl.textContent = dayData.title;
+      bottomDayBadgeEl.textContent = `Day 0${dayNum} Active`;
+
+      // Update Tab Selection State
+      document.querySelectorAll('.day-tab').forEach(tab => {
+        if (parseInt(tab.dataset.day) === dayNum) {
+          tab.classList.add('active', 'border-2', 'border-primary', 'bg-white', 'shadow-sm');
+          tab.classList.remove('border-surface-container-high', 'bg-surface-container-low/60');
+        } else {
+          tab.classList.remove('active', 'border-2', 'border-primary', 'bg-white', 'shadow-sm');
+          tab.classList.add('border-surface-container-high', 'bg-surface-container-low/60');
+        }
+      });
+
+      // Clear & Rebuild Timeline
+      timelineContainerEl.innerHTML = '';
+
+      dayData.stops.forEach((stop, index) => {
+        // Stop Card
+        const stopEl = document.createElement('article');
+        stopEl.className = 'stop-card bg-surface-container-lowest rounded-3xl p-5 sm:p-6 border border-surface-container-high shadow-xs relative z-10';
+        
+        let tagsHtml = stop.tags.map(t => `<span class="px-2.5 py-0.5 rounded-md bg-surface-container-low text-on-surface-variant text-[11px] font-medium border border-outline-variant/30">${t}</span>`).join('');
+        
+        let lockIndicator = stop.isLocked ? 
+          `<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-bold flex items-center gap-1">
+             <span class="material-symbols-outlined text-[12px]">lock</span> Protected Invariant
+           </span>` : '';
+
+        stopEl.innerHTML = `
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-start gap-3.5">
+              <span class="w-10 h-10 rounded-2xl bg-primary text-white font-headline-sm text-sm font-bold flex items-center justify-center shrink-0 shadow-xs">
+                ${index + 1}
+              </span>
+              <div>
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                  <span class="font-label-caps text-[11px] uppercase tracking-wider font-bold text-secondary">${stop.category}</span>
+                  <span class="text-on-surface-variant/40">•</span>
+                  <span class="font-headline-sm text-xs font-semibold text-primary flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">schedule</span>
+                    ${stop.startTime} – ${stop.endTime} (${stop.durationHours} hrs)
+                  </span>
+                  ${lockIndicator}
+                </div>
+                <h3 class="font-headline-sm text-base sm:text-lg font-bold text-on-surface leading-snug">${stop.name}</h3>
+                <p class="font-body-sm text-xs text-on-surface-variant mt-1.5 leading-relaxed">${stop.desc}</p>
+                <div class="mt-3 flex flex-wrap gap-1.5">
+                  ${tagsHtml}
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Controls (Move & Remove) -->
+            <div class="flex items-center gap-1 shrink-0">
+              ${index > 0 && !stop.isLocked ? `
+                <button type="button" data-move-up="${index}" class="btn-move-up w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface flex items-center justify-center transition-colors" title="Move Up">
+                  <span class="material-symbols-outlined text-[18px]">arrow_upward</span>
+                </button>
+              ` : ''}
+              ${index < dayData.stops.length - 1 && !stop.isLocked ? `
+                <button type="button" data-move-down="${index}" class="btn-move-down w-8 h-8 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface flex items-center justify-center transition-colors" title="Move Down">
+                  <span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+                </button>
+              ` : ''}
+              ${!stop.isLocked ? `
+                <button type="button" data-remove="${index}" class="btn-remove-stop w-8 h-8 rounded-lg bg-surface-container-low hover:bg-red-50 hover:text-red-700 text-on-surface-variant flex items-center justify-center transition-colors" title="Remove Stop">
+                  <span class="material-symbols-outlined text-[18px]">delete</span>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+        timelineContainerEl.appendChild(stopEl);
+
+        // Transit Ribbon (If there is a next stop)
+        if (stop.transitToNext) {
+          const t = stop.transitToNext;
+          const ribbonEl = document.createElement('div');
+          ribbonEl.className = 'transit-ribbon my-3 px-4 py-2.5 rounded-xl bg-slate-900/90 text-white border border-slate-800 backdrop-blur-sm flex items-center justify-between gap-4 text-xs shadow-xs';
+          
+          let modeIcon = "directions_car";
+          let modeColor = "text-emerald-400";
+          if (t.mode === 'FOOT_TRANSIT') { modeIcon = "footprint"; modeColor = "text-amber-400"; }
+          else if (t.mode === 'SOLAR_BOAT') { modeIcon = "sailing"; modeColor = "text-teal-400"; }
+
+          ribbonEl.innerHTML = `
+            <div class="flex items-center gap-2.5">
+              <span class="p-1 rounded-lg bg-slate-800 flex items-center justify-center ${modeColor}">
+                <span class="material-symbols-outlined text-[16px]">${modeIcon}</span>
+              </span>
+              <span class="font-semibold text-slate-200">
+                ${t.mode.replace('_', ' ')} • ${t.mins} mins
+              </span>
+              ${t.distKm ? `<span class="text-slate-400 font-mono text-[11px]">(${t.distKm} km)</span>` : ''}
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800/50 text-[11px] font-medium">
+                ${t.traffic}
+              </span>
+              ${t.isGps ? `
+                <span class="hidden sm:inline-flex items-center gap-1 text-[11px] text-slate-300">
+                  <span class="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse"></span>
+                  Live GPS Calibrated
+                </span>
+              ` : ''}
+            </div>
+          `;
+          timelineContainerEl.appendChild(ribbonEl);
+        }
+      });
+
+      // Recalculate Capacity
+      recalculateCapacity();
+      bindTimelineActions();
+    }
+
+    // 3. Recalculate Day Capacity & Feasibility Invariant
+    function recalculateCapacity() {
+      const dayData = itineraryDays[activeDayNumber];
+      if (!dayData) return;
+
+      // Sum duration of all stops
+      let totalHours = dayData.stops.reduce((sum, s) => sum + s.durationHours, 0);
+      dayData.allocatedHours = Math.round(totalHours * 10) / 10;
+
+      const maxSafeHours = 8.0;
+      const bufferHours = Math.max(0, Math.round((maxSafeHours - dayData.allocatedHours) * 10) / 10);
+      
+      // Update UI Counters
+      allocatedDisplayEl.textContent = `${dayData.allocatedHours}h`;
+      activeLabelEl.textContent = `Allocated Activity: ${dayData.allocatedHours} hrs`;
+      bufferLabelEl.textContent = `Rest Buffer: ${bufferHours} hrs remaining`;
+      bottomHoursSummaryEl.textContent = `(${dayData.allocatedHours}h Allocated / 8.0h Max)`;
+      libraryPillEl.textContent = `${bufferHours}h Free Buffer`;
+
+      // Update Bar Widths
+      const activePct = Math.min(100, Math.round((dayData.allocatedHours / maxSafeHours) * 80));
+      const bufferPct = Math.max(0, 100 - activePct);
+
+      barActiveEl.style.width = `${activePct}%`;
+      barBufferEl.style.width = `${bufferPct}%`;
+
+      // Invariant Check: Overburdened (> 8.5 hours)
+      if (dayData.allocatedHours > 8.5) {
+        barActiveEl.className = "bg-sunset-orange h-full rounded-full transition-all duration-300";
+        warningBannerEl.classList.remove('hidden');
+        capacityBadgeEl.textContent = "Schedule Overburdened";
+        capacityBadgeEl.className = "px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-900 text-xs font-bold";
+        bottomStatusBadgeEl.textContent = "Capacity Overburdened";
+        bottomStatusBadgeEl.className = "px-2 py-0.2 rounded-full bg-orange-100 text-orange-900 text-[10px] font-bold";
+      } else {
+        barActiveEl.className = "bg-primary h-full rounded-full transition-all duration-300";
+        warningBannerEl.classList.add('hidden');
+        capacityBadgeEl.textContent = "Optimal Pace";
+        capacityBadgeEl.className = "px-2.5 py-0.5 rounded-full bg-secondary-container text-secondary text-xs font-bold";
+        bottomStatusBadgeEl.textContent = "Optimal Feasibility";
+        bottomStatusBadgeEl.className = "px-2 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold";
+      }
+
+      // Save state
+      saveBuilderState();
+    }
+
+    // 4. Bind Timeline Actions (Move Up, Move Down, Delete)
+    function bindTimelineActions() {
+      const dayData = itineraryDays[activeDayNumber];
+
+      // Move Up
+      document.querySelectorAll('.btn-move-up').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt(btn.dataset.moveUp);
+          if (idx > 0) {
+            const temp = dayData.stops[idx];
+            dayData.stops[idx] = dayData.stops[idx - 1];
+            dayData.stops[idx - 1] = temp;
+            renderDaySchedule(activeDayNumber);
+          }
+        });
+      });
+
+      // Move Down
+      document.querySelectorAll('.btn-move-down').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt(btn.dataset.moveDown);
+          if (idx < dayData.stops.length - 1) {
+            const temp = dayData.stops[idx];
+            dayData.stops[idx] = dayData.stops[idx + 1];
+            dayData.stops[idx + 1] = temp;
+            renderDaySchedule(activeDayNumber);
+          }
+        });
+      });
+
+      // Remove Stop
+      document.querySelectorAll('.btn-remove-stop').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const idx = parseInt(btn.dataset.remove);
+          dayData.stops.splice(idx, 1);
+          renderDaySchedule(activeDayNumber);
+        });
+      });
+    }
+
+    // 5. Add Stop from Library
+    document.querySelectorAll('.btn-add-stop').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.addId;
+        const addition = libraryAdditions[id];
+        if (!addition) return;
+
+        const dayData = itineraryDays[activeDayNumber];
+        
+        // Deep clone stop to add
+        const newStop = {
+          id: `stop-${id}-${Date.now()}`,
+          name: addition.name,
+          category: addition.category,
+          startTime: addition.startTime,
+          endTime: addition.endTime,
+          durationHours: addition.durationHours,
+          desc: addition.desc,
+          tags: [...addition.tags],
+          isLocked: false,
+          transitToNext: null
+        };
+
+        // Link previous stop with transit
+        if (dayData.stops.length > 0) {
+          const prevStop = dayData.stops[dayData.stops.length - 1];
+          if (!prevStop.transitToNext) {
+            prevStop.transitToNext = {
+              mode: "PRIVATE_CHAUFFEUR",
+              mins: 15,
+              distKm: 3.2,
+              traffic: "Low Traffic",
+              isGps: true
+            };
+          }
+        }
+
+        dayData.stops.push(newStop);
+        renderDaySchedule(activeDayNumber);
+      });
+    });
+
+    // 6. Day Tab Listeners
+    document.querySelectorAll('.day-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const day = parseInt(tab.dataset.day);
+        renderDaySchedule(day);
+      });
+    });
+
+    // 7. Reset to AI Optimal Order
+    document.getElementById('btn-reset-ai').addEventListener('click', () => {
+      // Re-trigger default load for active day
+      renderDaySchedule(activeDayNumber);
+    });
+
+    // 8. Save State to Session Storage
+    function saveBuilderState() {
+      const payload = {
+        activeDay: activeDayNumber,
+        days: itineraryDays,
+        updatedAt: new Date().toISOString()
+      };
+      sessionStorage.setItem('trevoo_final_builder_state', JSON.stringify(payload));
+    }
+
+    // 9. Lock Master Dossier and Navigate to Screen 08
+    document.getElementById('btn-lock-master-dossier').addEventListener('click', () => {
+      saveBuilderState();
+      window.location.href = 'S8_FinalItinerary.html';
+    });
+
+    // Initialize
+    loadSessionContext();
+    renderDaySchedule(2); // Start on Day 2 as specified
+  </script>
+</body>
+</html>
+
